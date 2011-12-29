@@ -50,7 +50,7 @@ public class Game extends GameGrid {
 	 */
 	public void setup() {
 		
-		this.resetGrid();
+		super.resetGrid();
 		this.setScore(0);
 		this.setStatus(ACTIVE);
 		

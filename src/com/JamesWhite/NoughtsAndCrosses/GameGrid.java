@@ -16,6 +16,9 @@ package com.JamesWhite.NoughtsAndCrosses;
 public class GameGrid {
 	
 	private int[] gridValues = new int[9];
+	// Constants to represent the noughts and crosses
+	private final int NOUGHT = 0;
+	private final int CROSS = 1;
 
 	/**
 	 * @return the gridValues
@@ -41,6 +44,24 @@ public class GameGrid {
 	public void resetGrid() {
 		
 		// Empty array or set all values to NULL
+		
+	}
+	
+	/**
+	 * Return the integer value of a 'nought'
+	 */
+	public int nought() {
+		
+		return this.NOUGHT;
+		
+	}
+	
+	/**
+	 * Return the integer value of a 'cross'
+	 */
+	public int cross() {
+		
+		return this.CROSS;
 		
 	}
 	
