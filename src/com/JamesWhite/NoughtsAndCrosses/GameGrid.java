@@ -35,4 +35,13 @@ public class GameGrid {
 		
 	}
 	
+	/**
+	 * Reset the grid
+	 */
+	public void resetGrid() {
+		
+		// Empty array or set all values to NULL
+		
+	}
+	
 }

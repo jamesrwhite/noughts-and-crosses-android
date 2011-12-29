@@ -48,7 +48,7 @@ public class Game {
 	/**
 	 * Do everything required to start the game
 	 */
-	public void start() {
+	public void setup() {
 		
 		this.setScore(0);
 		this.setStatus(ACTIVE);
