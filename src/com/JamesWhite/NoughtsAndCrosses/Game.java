@@ -1,6 +1,6 @@
 package com.JamesWhite.NoughtsAndCrosses;
 
-public class Game {
+public class Game extends GameGrid {
 	
 	private int score;
 	private int status;
@@ -50,6 +50,7 @@ public class Game {
 	 */
 	public void setup() {
 		
+		this.resetGrid();
 		this.setScore(0);
 		this.setStatus(ACTIVE);
 		
