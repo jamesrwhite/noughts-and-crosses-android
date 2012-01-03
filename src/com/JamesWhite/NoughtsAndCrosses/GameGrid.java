@@ -3,12 +3,12 @@ package com.JamesWhite.NoughtsAndCrosses;
 /*
  * The Grid is a 3x3 square with
  * a number assigned to each position
- * which corresponds to it's array key
+ * which corresponds to it's array key + 1
  * 
  * ------------
- *  0   1   2
- *  3   4   5
- *  6   7   8
+ *  1   2   3
+ *  4   5   6
+ *  7   8   9
  * ------------
  * 
  */
@@ -30,11 +30,12 @@ public class GameGrid {
 	}
 
 	/**
-	 * @param gridValue the gridValues to set from the gridValues Array
+	 * @param gridValue the gridValues to set from the gridValues Array.
+	 * Setting gridIndex 1 will set the array index of 0's value.
 	 */
 	public void setGridValue(int gridIndex, int gridValue) {
 		
-		gridValues[gridIndex] = gridValue;
+		gridValues[gridIndex - 1] = gridValue;
 		
 	}
 	
@@ -50,7 +51,7 @@ public class GameGrid {
 	/**
 	 * Return the integer value of a 'nought'
 	 */
-	public int nought() {
+	public int getNought() {
 		
 		return this.NOUGHT;
 		
@@ -59,7 +60,7 @@ public class GameGrid {
 	/**
 	 * Return the integer value of a 'cross'
 	 */
-	public int cross() {
+	public int getCross() {
 		
 		return this.CROSS;
 		
