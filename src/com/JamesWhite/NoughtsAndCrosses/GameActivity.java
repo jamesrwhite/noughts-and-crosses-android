@@ -1,21 +1,27 @@
 package com.JamesWhite.NoughtsAndCrosses;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 public class GameActivity extends Activity implements OnClickListener {
-	
+
 	// Define all the grid cells
 	LinearLayout cell0, cell1, cell2, cell3, cell4, cell5, cell6, cell7, cell8;
+	
+	// Define the player choice buttons
+	Button selectNoughts;
+	Button selectCrosses;
 	
 	// Define the onClick parent and child views
 	LinearLayout parent;
 	TextView child;
-	
+
 	// Create our players
 	Player human = new Player();
 	Player computer = new Player();
@@ -27,12 +33,43 @@ public class GameActivity extends Activity implements OnClickListener {
 	public void onCreate(Bundle savedInstanceState) {
 
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.game);
+		this.setContentView(R.layout.game);
 		
-		// Set up the players
-		human.setType(0);
-		computer.setType(1);
+		// Show our dialog to get the player type choice
+		final Dialog dialog = new Dialog(GameActivity.this);
+		dialog.setContentView(R.layout.gamestartdiaglog);
+		dialog.setTitle("Choose wisely!");
+		dialog.show();
 		
+		// Instantiate our player choice buttons and set their click listeners
+		selectNoughts = (Button) dialog.findViewById(R.id.selectNoughts);
+		selectNoughts.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				
+				human.setType(0);
+				computer.setType(1);
+				dialog.dismiss();
+				
+			}
+			
+		});
+		
+		selectCrosses = (Button) dialog.findViewById(R.id.selectCrosses);
+		selectCrosses.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				
+				human.setType(1);
+				computer.setType(0);
+				dialog.dismiss();
+				
+			}
+			
+		});
+
 		// Instantiate all our Cells and Cell Values
 		cell0 = (LinearLayout) findViewById(R.id.cell0);
 		cell1 = (LinearLayout) findViewById(R.id.cell1);
@@ -43,8 +80,8 @@ public class GameActivity extends Activity implements OnClickListener {
 		cell6 = (LinearLayout) findViewById(R.id.cell6);
 		cell7 = (LinearLayout) findViewById(R.id.cell7);
 		cell8 = (LinearLayout) findViewById(R.id.cell8);
-		
-		// Set up our click listeners
+
+		// Set up our cell click listeners
 		cell0.setOnClickListener(this);
 		cell1.setOnClickListener(this);
 		cell2.setOnClickListener(this);
@@ -54,30 +91,30 @@ public class GameActivity extends Activity implements OnClickListener {
 		cell6.setOnClickListener(this);
 		cell7.setOnClickListener(this);
 		cell8.setOnClickListener(this);
-		
+
 		// Let the games begin!
 		game.setup();
-		
+
 	}
 
 	@Override
 	public void onClick(View v) {
-		
+
 		parent = (LinearLayout) findViewById(v.getId());
 		child = (TextView) parent.getChildAt(0);
-		
-		if( human.getType() == game.getCross() ) {
-			
+
+		if (human.getType() == game.getCross()) {
+
 			child.setText("X");
-			
+
 		}
-		
+
 		else {
-			
+
 			child.setText("0");
-			
+
 		}
-		
+
 	}
 
 }

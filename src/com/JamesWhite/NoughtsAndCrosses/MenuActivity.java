@@ -26,8 +26,8 @@ public class MenuActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				
-				Intent intent = new Intent(MenuActivity.this, GameActivity.class);
-				MenuActivity.this.startActivity(intent);
+				Intent gameIntent = new Intent(MenuActivity.this, GameActivity.class);
+				MenuActivity.this.startActivity(gameIntent);
 				
 			}
         	
@@ -38,8 +38,8 @@ public class MenuActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				
-				Intent intent = new Intent(MenuActivity.this, HighScoreActivity.class);
-				MenuActivity.this.startActivity(intent);
+				Intent highScoreIntent = new Intent(MenuActivity.this, HighScoreActivity.class);
+				MenuActivity.this.startActivity(highScoreIntent);
 				
 			}
         	
