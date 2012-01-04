@@ -4,9 +4,11 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
+import android.text.Editable;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -25,8 +27,8 @@ public class GameActivity extends Activity implements OnClickListener {
 	TextView child;
 
 	// Create our players
-	Player human = new Player();
-	Player computer = new Player();
+	HumanPlayer human = new HumanPlayer();
+	ComputerPlayer computer = new ComputerPlayer();
 
 	// Create the game
 	Game game = new Game();
@@ -50,8 +52,13 @@ public class GameActivity extends Activity implements OnClickListener {
 			@Override
 			public void onClick(View v) {
 
-				human.setType(0);
-				computer.setType(1);
+				human.setType(game.getCrossValue());
+				computer.setType(game.getNoughtValue());
+				
+				EditText playerName = (EditText) dialog.findViewById(R.id.playerName);
+				String playerNameString = playerName.getText().toString();
+				human.setName(playerNameString);
+				
 				dialog.dismiss();
 
 			}
@@ -64,8 +71,13 @@ public class GameActivity extends Activity implements OnClickListener {
 			@Override
 			public void onClick(View v) {
 
-				human.setType(1);
-				computer.setType(0);
+				human.setType(game.getCrossValue());
+				computer.setType(game.getNoughtValue());
+				
+				EditText playerName = (EditText) dialog.findViewById(R.id.playerName);
+				String playerNameString = playerName.getText().toString();
+				human.setName(playerNameString);
+				
 				dialog.dismiss();
 
 			}
@@ -104,26 +116,19 @@ public class GameActivity extends Activity implements OnClickListener {
 
 		parent = (LinearLayout) findViewById(v.getId());
 		child = (TextView) parent.getChildAt(0);
-
-		if (human.getType() == game.getCross()) {
-
-			child.setText("X");
-
-		}
-
-		else {
-
-			child.setText("0");
-
-		}
-
+		
+		// Get the String of nought/cross to set based on the integer player type
+		child.setText(game.getStringFromPlayerType(human.getType()));
+		
 		// Display a notification that it is now the CPU's go
 		Context context = getApplicationContext();
-		CharSequence text = "Nice move, now it's Skynet's turn!";
-		int duration = Toast.LENGTH_SHORT;
+		String text = "Nice move " + human.getName() + ", now it's Skynet's turn!";
+		int duration = 1;
 
 		Toast toast = Toast.makeText(context, text, duration);
 		toast.show();
+		
+		computer.calculateNextMove(game.getGridValues());
 
 	}
 

@@ -49,20 +49,46 @@ public class GameGrid {
 	}
 	
 	/**
-	 * Return the integer value of a 'nought'
+	 * @return the integer value of a 'nought'
 	 */
-	public int getNought() {
+	public int getNoughtValue() {
 		
 		return this.NOUGHT;
 		
 	}
 	
-	/**
-	 * Return the integer value of a 'cross'
+	/**	
+	 * @return the integer value of a 'cross'
 	 */
-	public int getCross() {
+	public int getCrossValue() {
 		
 		return this.CROSS;
+		
+	}
+	
+	/**
+	 * @return String value of the player type given as a parameter
+	 * @param int player type
+	 */
+	public String getStringFromPlayerType(int type) {
+		
+		if (type == this.CROSS) {
+			
+			return "X";
+			
+		}
+		
+		else if (type == this.NOUGHT) {
+			
+			return "0";
+			
+		}
+		
+		else {
+			
+			return null;
+			
+		}
 		
 	}
 	
