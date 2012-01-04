@@ -16,7 +16,8 @@ import android.widget.Toast;
 public class GameActivity extends Activity implements OnClickListener {
 
 	// Define all the grid cells
-	LinearLayout cell0, cell1, cell2, cell3, cell4, cell5, cell6, cell7, cell8;
+	LinearLayout cell1, cell2, cell3, cell4, cell5, cell6, cell7, cell8, cell9;
+	int cellId;
 
 	// Define the player choice buttons
 	Button selectNoughts;
@@ -85,7 +86,6 @@ public class GameActivity extends Activity implements OnClickListener {
 		});
 
 		// Instantiate all our Cells and Cell Values
-		cell0 = (LinearLayout) findViewById(R.id.cell0);
 		cell1 = (LinearLayout) findViewById(R.id.cell1);
 		cell2 = (LinearLayout) findViewById(R.id.cell2);
 		cell3 = (LinearLayout) findViewById(R.id.cell3);
@@ -94,9 +94,9 @@ public class GameActivity extends Activity implements OnClickListener {
 		cell6 = (LinearLayout) findViewById(R.id.cell6);
 		cell7 = (LinearLayout) findViewById(R.id.cell7);
 		cell8 = (LinearLayout) findViewById(R.id.cell8);
+		cell9 = (LinearLayout) findViewById(R.id.cell9);
 
 		// Set up our cell click listeners
-		cell0.setOnClickListener(this);
 		cell1.setOnClickListener(this);
 		cell2.setOnClickListener(this);
 		cell3.setOnClickListener(this);
@@ -105,6 +105,7 @@ public class GameActivity extends Activity implements OnClickListener {
 		cell6.setOnClickListener(this);
 		cell7.setOnClickListener(this);
 		cell8.setOnClickListener(this);
+		cell9.setOnClickListener(this);
 
 		// Let the games begin!
 		game.setup();
@@ -117,17 +118,32 @@ public class GameActivity extends Activity implements OnClickListener {
 		parent = (LinearLayout) findViewById(v.getId());
 		child = (TextView) parent.getChildAt(0);
 		
+		// Get the Cell ID
+		try {
+			
+		    cellId = Integer.parseInt(child.getTag().toString());
+		    
+		}
+		
+		catch (NumberFormatException nfe) {
+			
+		   System.out.println("Could not parse " + nfe);
+		   
+		} 
+		
 		// Get the String of nought/cross to set based on the integer player type
 		child.setText(game.getStringFromPlayerType(human.getType()));
 		
 		// Display a notification that it is now the CPU's go
 		Context context = getApplicationContext();
-		String text = "Nice move " + human.getName() + ", now it's Skynet's turn!";
-		int duration = 1;
+		String text = "Nice move " + human.getName() + ", now it's Skynet's turn!" + cellId;
+		int duration = Toast.LENGTH_SHORT;
 
 		Toast toast = Toast.makeText(context, text, duration);
+		toast.cancel(); // Cancel any already visible slices
 		toast.show();
 		
+		// Let the CPU make it's move! 
 		computer.calculateNextMove(game.getGridValues());
 
 	}
