@@ -17,7 +17,7 @@ public class GameActivity extends Activity implements OnClickListener {
 
 	// Define all the grid cells
 	LinearLayout cell1, cell2, cell3, cell4, cell5, cell6, cell7, cell8, cell9;
-	int cellId;
+	int cellId, rowId;
 
 	// Define the player choice buttons
 	Button selectNoughts;
@@ -26,6 +26,9 @@ public class GameActivity extends Activity implements OnClickListener {
 	// Define the onClick parent and child views
 	LinearLayout parent;
 	TextView child;
+	LinearLayout parentRow;
+	TextView childTextView;
+	LinearLayout childParent;
 
 	// Create our players
 	HumanPlayer human = new HumanPlayer();
@@ -53,13 +56,13 @@ public class GameActivity extends Activity implements OnClickListener {
 			@Override
 			public void onClick(View v) {
 
-				human.setType(game.getCrossValue());
-				computer.setType(game.getNoughtValue());
-				
+				human.setType(game.getNoughtValue());
+				computer.setType(game.getCrossValue());
+
 				EditText playerName = (EditText) dialog.findViewById(R.id.playerName);
 				String playerNameString = playerName.getText().toString();
 				human.setName(playerNameString);
-				
+
 				dialog.dismiss();
 
 			}
@@ -74,11 +77,12 @@ public class GameActivity extends Activity implements OnClickListener {
 
 				human.setType(game.getCrossValue());
 				computer.setType(game.getNoughtValue());
-				
-				EditText playerName = (EditText) dialog.findViewById(R.id.playerName);
+
+				EditText playerName = (EditText) dialog
+						.findViewById(R.id.playerName);
 				String playerNameString = playerName.getText().toString();
 				human.setName(playerNameString);
-				
+
 				dialog.dismiss();
 
 			}
@@ -115,35 +119,74 @@ public class GameActivity extends Activity implements OnClickListener {
 	@Override
 	public void onClick(View v) {
 
+		// Set the value for the clicked cell
 		parent = (LinearLayout) findViewById(v.getId());
 		child = (TextView) parent.getChildAt(0);
-		
+
 		// Get the Cell ID
 		try {
-			
-		    cellId = Integer.parseInt(child.getTag().toString());
-		    
+
+			cellId = Integer.parseInt(child.getTag().toString());
+
+		}
+
+		catch (NumberFormatException nfe) {
+
+			System.out.println("Could not parse " + nfe);
+
 		}
 		
-		catch (NumberFormatException nfe) {
-			
-		   System.out.println("Could not parse " + nfe);
-		   
-		} 
-		
-		// Get the String of nought/cross to set based on the integer player type
-		child.setText(game.getStringFromPlayerType(human.getType()));
-		
-		// Display a notification that it is now the CPU's go
+		// Set up the toast notifications
+		Toast toast;
 		Context context = getApplicationContext();
-		String text = "Nice move " + human.getName() + ", now it's Skynet's turn!" + cellId;
+		String text;
 		int duration = Toast.LENGTH_SHORT;
 
-		Toast toast = Toast.makeText(context, text, duration);
-		toast.cancel(); // Cancel any already visible slices
-		toast.show();
-		
-		// Let the CPU make it's move! 
+		// Add the players move
+		if (game.getStatus() == game.ACTIVE) {
+			
+			if (game.getGridValue(cellId) != 1 || game.getGridValue(cellId) != 2) {
+				
+				// +1 to the player type because we have to use 1/2
+				// in the gridValue array because the default for an
+				// int array is 0
+				game.setGridValue(cellId, human.getType() + 1);
+				child.setText(game.getStringFromPlayerType(human.getType()));
+			
+				// Update the game status
+				game.setStatus(game.WAITING);
+			
+				// Show the nice move notification
+				text = "Nice move " + human.getName() + ", now it's Skynet's turn!";
+				toast = Toast.makeText(context, text, duration);
+				toast.cancel(); // Cancel any already visible slices
+				toast.show();
+				
+			}
+			
+			else {
+				
+				// Show the nice move notification
+				text = "Looks like that position is already taken!";
+				toast = Toast.makeText(context, text, duration);
+				toast.cancel(); // Cancel any already visible slices
+				toast.show();
+				
+			}
+			
+		}
+			
+		else {
+			
+			// Show the nice move notification
+			text = "Wait your turn!";
+			toast = Toast.makeText(context, text, duration);
+			toast.cancel(); // Cancel any already visible slices
+			toast.show();
+			
+		}
+
+		// Let the CPU make it's move!
 		computer.calculateNextMove(game.getGridValues());
 
 	}
