@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -101,25 +102,33 @@ public class GameActivity extends Activity implements OnClickListener {
 
 		// Add all the grid cells to an Array
 		cells = new LinearLayout[9];
+		int arrayIndex;
 		LinearLayout row1 = (LinearLayout) findViewById(R.id.row1);
 		LinearLayout row2 = (LinearLayout) findViewById(R.id.row2);
 		LinearLayout row3 = (LinearLayout) findViewById(R.id.row3);
-
+		
+		// Populate the cells array with each LinearLayout grid cell
 		for (int i = 0; i < row1.getChildCount(); i++) {
-
-			cells[i] = (LinearLayout) row1.getChildAt(i);
+			
+			// Get the id of the cell from the android:tag and -1 from it to make it usable for the array
+			arrayIndex = Integer.parseInt(((ViewGroup) row1.getChildAt(i)).getChildAt(0).getTag().toString()) - 1;
+			cells[arrayIndex] = (LinearLayout) row1.getChildAt(i);
 
 		}
 
 		for (int i = 0; i < row2.getChildCount(); i++) {
-
-			cells[i + 3] = (LinearLayout) row2.getChildAt(i);
+			
+			// Get the id of the cell from the android:tag and -1 from it to make it usable for the array
+			arrayIndex = Integer.parseInt(((ViewGroup) row2.getChildAt(i)).getChildAt(0).getTag().toString()) - 1;
+			cells[arrayIndex] = (LinearLayout) row2.getChildAt(i);
 
 		}
 
 		for (int i = 0; i < row3.getChildCount(); i++) {
-
-			cells[i + 6] = (LinearLayout) row3.getChildAt(i);
+			
+			// Get the id of the cell from the android:tag and -1 from it to make it usable for the array
+			arrayIndex = Integer.parseInt(((ViewGroup) row3.getChildAt(i)).getChildAt(0).getTag().toString()) - 1;
+			cells[arrayIndex] = (LinearLayout) row3.getChildAt(i);
 
 		}
 
@@ -173,15 +182,13 @@ public class GameActivity extends Activity implements OnClickListener {
 
 		// Add the players move
 		// Check the grid isn't full
-		if (game.checkIfGameFinished(game.getGridValues()) != game.FINISHED) {
+		if (game.checkIfGameFinished(game.getGridValues()) == game.UNFINISHED) {
 
 			if (game.getStatus() == game.ACTIVE) {
 
 				if (game.getGridValue(cellId - 1) != 1 || game.getGridValue(cellId - 1) != 2) {
-
-					// +1 to the player type because we have to use 1/2
-					// in the gridValue array because the default for an
-					// int array is 0
+					
+					System.out.println("Player 1 to p" + (cellId));
 					game.setGridValue(cellId - 1, human.getType() + 1);
 					child.setText(game.getStringFromPlayerType(human.getType()));
 
@@ -209,18 +216,6 @@ public class GameActivity extends Activity implements OnClickListener {
 
 			}
 
-			else if (game.getStatus() == game.WAITING) {
-
-				// Let the CPU make it's move!
-				int cpuNextMove = computer.getNextMove(game.getGridValues());
-				System.out.println(cpuNextMove);
-				game.setGridValue(cpuNextMove, computer.getType() + 1);
-				TextView cpuTextView = (TextView) cells[cpuNextMove].getChildAt(0);
-				cpuTextView.setText(game.getStringFromPlayerType(computer.getType()));
-				game.setStatus(game.ACTIVE);
-
-			}
-
 			else {
 
 				// Show the nice move notification
@@ -230,7 +225,40 @@ public class GameActivity extends Activity implements OnClickListener {
 				toast.show();
 
 			}
+			
+			// Check AGAIN if the game is finished
+			if (game.checkIfGameFinished(game.getGridValues()) == game.UNFINISHED) {
+			
+				// Let the CPU make it's move!
+				int cpuNextMove = computer.getNextMove(game.getGridValues());
+				System.out.println("CPU to p" + (cpuNextMove+1));
+				game.setGridValue(cpuNextMove, computer.getType() + 1);
+				TextView cpuTextView = (TextView) cells[cpuNextMove].getChildAt(0);
+				cpuTextView.setText(game.getStringFromPlayerType(computer.getType()));
+				game.setStatus(game.ACTIVE);
+				
+			}
+			
+			else {
+				
+				// Show the game over notification
+				text = "Game over suckaz";
+				toast = Toast.makeText(context, text, duration);
+				toast.cancel(); // Cancel any already visible slices
+				toast.show();
+				
+			}
 
+		}
+		
+		else {
+			
+			// Show the game over notification
+			text = "Game over suckaz";
+			toast = Toast.makeText(context, text, duration);
+			toast.cancel(); // Cancel any already visible slices
+			toast.show();
+			
 		}
 
 	}

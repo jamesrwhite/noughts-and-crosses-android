@@ -118,19 +118,17 @@ public class Game {
 	 */
 	public int checkIfGameFinished(int[] gridValues) {
 		
-		int empty = 0;
-		
 		for (int i = 0; i < gridValues.length; i++) {
 			
 			if (gridValues[i] == 0) {
 				
-				return this.FINISHED;
+				return this.UNFINISHED;
 				
 			}
 			
 		}
 		
-		return this.UNFINISHED;
+		return this.FINISHED;
 		
 	}
 
