@@ -17,24 +17,24 @@ import android.widget.Toast;
 public class GameActivity extends Activity implements OnClickListener {
 
 	// Define all the grid cells
-	LinearLayout cell1, cell2, cell3, cell4, cell5, cell6, cell7, cell8, cell9;
+	private LinearLayout cell1, cell2, cell3, cell4, cell5, cell6, cell7,
+			cell8, cell9;
 	int cellId, rowId;
 
 	// Define the player choice buttons
-	Button selectNoughts;
-	Button selectCrosses;
+	private Button selectNoughts, selectCrosses;
 
 	// Define the onClick parent and child views
-	LinearLayout parent;
-	TextView child;
-	LinearLayout[] cells;
+	private LinearLayout parent;
+	private TextView child;
+	private LinearLayout[] cells;
 
 	// Create our players
-	HumanPlayer human = new HumanPlayer();
-	ComputerPlayer computer = new ComputerPlayer();
+	private HumanPlayer human = new HumanPlayer();
+	private ComputerPlayer computer = new ComputerPlayer();
 
 	// Create the game
-	Game game = new Game();
+	private Game game = new Game();
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -101,40 +101,40 @@ public class GameActivity extends Activity implements OnClickListener {
 		cell9 = (LinearLayout) findViewById(R.id.cell9);
 
 		// Add all the grid cells to an Array
-		cells = new LinearLayout[9];
+		cells = new LinearLayout[10];
 		int arrayIndex;
 		LinearLayout row1 = (LinearLayout) findViewById(R.id.row1);
 		LinearLayout row2 = (LinearLayout) findViewById(R.id.row2);
 		LinearLayout row3 = (LinearLayout) findViewById(R.id.row3);
-		
+
 		// Populate the cells array with each LinearLayout grid cell
-		for (int i = 0; i < row1.getChildCount(); i++) {
-			
-			// Get the id of the cell from the android:tag and -1 from it to make it usable for the array
-			arrayIndex = Integer.parseInt(((ViewGroup) row1.getChildAt(i)).getChildAt(0).getTag().toString()) - 1;
-			cells[arrayIndex] = (LinearLayout) row1.getChildAt(i);
+		for (int i = 1; i <= row1.getChildCount(); i++) {
+
+			// Get the id of the cell from the android:tag and -1 from it to
+			// make it usable for the array
+			arrayIndex = Integer.parseInt(((ViewGroup) row1.getChildAt(i - 1))
+					.getChildAt(0).getTag().toString());
+			cells[arrayIndex] = (LinearLayout) row1.getChildAt(i - 1);
 
 		}
 
-		for (int i = 0; i < row2.getChildCount(); i++) {
-			
-			// Get the id of the cell from the android:tag and -1 from it to make it usable for the array
-			arrayIndex = Integer.parseInt(((ViewGroup) row2.getChildAt(i)).getChildAt(0).getTag().toString()) - 1;
-			cells[arrayIndex] = (LinearLayout) row2.getChildAt(i);
+		for (int i = 1; i <= row2.getChildCount(); i++) {
+
+			// Get the id of the cell from the android:tag and -1 from it to
+			// make it usable for the array
+			arrayIndex = Integer.parseInt(((ViewGroup) row2.getChildAt(i - 1))
+					.getChildAt(0).getTag().toString());
+			cells[arrayIndex] = (LinearLayout) row2.getChildAt(i - 1);
 
 		}
 
-		for (int i = 0; i < row3.getChildCount(); i++) {
-			
-			// Get the id of the cell from the android:tag and -1 from it to make it usable for the array
-			arrayIndex = Integer.parseInt(((ViewGroup) row3.getChildAt(i)).getChildAt(0).getTag().toString()) - 1;
-			cells[arrayIndex] = (LinearLayout) row3.getChildAt(i);
+		for (int i = 1; i <= row3.getChildCount(); i++) {
 
-		}
-
-		for (int i = 0; i < cells.length; i++) {
-
-			System.out.println(cells[i]);
+			// Get the id of the cell from the android:tag and -1 from it to
+			// make it usable for the array
+			arrayIndex = Integer.parseInt(((ViewGroup) row3.getChildAt(i - 1))
+					.getChildAt(0).getTag().toString());
+			cells[arrayIndex] = (LinearLayout) row3.getChildAt(i - 1);
 
 		}
 
@@ -160,19 +160,7 @@ public class GameActivity extends Activity implements OnClickListener {
 		// Set the value for the clicked cell
 		parent = (LinearLayout) findViewById(v.getId());
 		child = (TextView) parent.getChildAt(0);
-
-		// Get the Cell ID
-		try {
-
-			cellId = Integer.parseInt(child.getTag().toString());
-
-		}
-
-		catch (NumberFormatException nfe) {
-
-			System.out.println("Could not parse " + nfe);
-
-		}
+		cellId = Integer.parseInt(child.getTag().toString());
 
 		// Set up the toast notifications
 		Toast toast;
@@ -182,18 +170,35 @@ public class GameActivity extends Activity implements OnClickListener {
 
 		// Add the players move
 		// Check the grid isn't full
-		if (game.checkIfGameFinished(game.getGridValues()) == game.UNFINISHED) {
+		if (game.checkIfGridFull(game.getGridValues()) == game.UNFINISHED) {
 
 			if (game.getStatus() == game.ACTIVE) {
 
-				if (game.getGridValue(cellId - 1) != 1 || game.getGridValue(cellId - 1) != 2) {
-					
+				if (game.getGridValue(cellId) != 1
+						|| game.getGridValue(cellId) != 2) {
+
 					System.out.println("Player 1 to p" + (cellId));
-					game.setGridValue(cellId - 1, human.getType() + 1);
+					game.setGridValue(cellId, human.getType());
 					child.setText(game.getStringFromPlayerType(human.getType()));
 
-					// Update the game status
-					game.setStatus(game.WAITING);
+					// Check if this moves wins the game
+					if (game.checkIfGameWon(game.getGridValues()) != 0) {
+
+						// Show the game over notification
+						text = "#winning";
+						toast = Toast.makeText(context, text, duration);
+						toast.cancel(); // Cancel any already visible slices
+						toast.show();
+						game.setStatus(game.FINISHED);
+
+					}
+
+					// Otherwise let the games continue!
+					else {
+
+						game.setStatus(game.WAITING);
+
+					}
 
 					// Show the nice move notification
 					// text = "Nice move " + human.getName() +
@@ -225,40 +230,58 @@ public class GameActivity extends Activity implements OnClickListener {
 				toast.show();
 
 			}
-			
+
 			// Check AGAIN if the game is finished
-			if (game.checkIfGameFinished(game.getGridValues()) == game.UNFINISHED) {
-			
+			if (game.getStatus() != game.FINISHED && game.checkIfGridFull(game.getGridValues()) == game.UNFINISHED) {
+
 				// Let the CPU make it's move!
 				int cpuNextMove = computer.getNextMove(game.getGridValues());
-				System.out.println("CPU to p" + (cpuNextMove+1));
-				game.setGridValue(cpuNextMove, computer.getType() + 1);
-				TextView cpuTextView = (TextView) cells[cpuNextMove].getChildAt(0);
-				cpuTextView.setText(game.getStringFromPlayerType(computer.getType()));
-				game.setStatus(game.ACTIVE);
-				
+				System.out.println("CPU to p" + (cpuNextMove));
+				game.setGridValue(cpuNextMove, computer.getType());
+				TextView cpuTextView = (TextView) cells[cpuNextMove]
+						.getChildAt(0);
+				cpuTextView.setText(game.getStringFromPlayerType(computer
+						.getType()));
+
+				if (game.checkIfGameWon(game.getGridValues()) != 0) {
+
+					// Show the game over notification
+					text = "You Looooose!";
+					toast = Toast.makeText(context, text, duration);
+					toast.cancel(); // Cancel any already visible slices
+					toast.show();
+					game.setStatus(game.FINISHED);
+
+				}
+
+				else {
+
+					game.setStatus(game.ACTIVE);
+
+				}
+
 			}
-			
+
 			else {
-				
+
 				// Show the game over notification
 				text = "Game over suckaz";
 				toast = Toast.makeText(context, text, duration);
 				toast.cancel(); // Cancel any already visible slices
 				toast.show();
-				
+
 			}
 
 		}
-		
+
 		else {
-			
+
 			// Show the game over notification
 			text = "Game over suckaz";
 			toast = Toast.makeText(context, text, duration);
 			toast.cancel(); // Cancel any already visible slices
 			toast.show();
-			
+
 		}
 
 	}
