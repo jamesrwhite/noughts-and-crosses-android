@@ -101,41 +101,48 @@ public class GameActivity extends Activity implements OnClickListener {
 		cell9 = (LinearLayout) findViewById(R.id.cell9);
 
 		// Add all the grid cells to an Array
-		cells = new LinearLayout[10];
+		cells = new LinearLayout[9];
 		int arrayIndex;
 		LinearLayout row1 = (LinearLayout) findViewById(R.id.row1);
 		LinearLayout row2 = (LinearLayout) findViewById(R.id.row2);
 		LinearLayout row3 = (LinearLayout) findViewById(R.id.row3);
 
 		// Populate the cells array with each LinearLayout grid cell
-		for (int i = 1; i <= row1.getChildCount(); i++) {
+		for (int i = 0; i < 9; i++) {
 
-			// Get the id of the cell from the android:tag and -1 from it to
-			// make it usable for the array
-			arrayIndex = Integer.parseInt(((ViewGroup) row1.getChildAt(i - 1))
-					.getChildAt(0).getTag().toString());
-			cells[arrayIndex] = (LinearLayout) row1.getChildAt(i - 1);
+			// Row 1
+			if (i >= 0 && i <= 2) {
+
+				// arrayIndex = Integer.parseInt(((ViewGroup) row1.getChildAt(i
+				// - 1)).getChildAt(0).getTag().toString());
+				cells[i] = (LinearLayout) row1.getChildAt(i);
+
+			}
+
+			// Row 2
+			if (i >= 3 && i <= 5) {
+
+				// arrayIndex = Integer.parseInt(((ViewGroup) row2.getChildAt(i
+				// - 1)).getChildAt(0).getTag().toString());
+				cells[i] = (LinearLayout) row2.getChildAt(i - 3);
+
+			}
+
+			// Row 3
+			if (i >= 6 && i <= 8) {
+
+				// arrayIndex = Integer.parseInt(((ViewGroup) row3.getChildAt(i
+				// - 1)).getChildAt(0).getTag().toString());
+				cells[i] = (LinearLayout) row3.getChildAt(i - 6);
+
+			}
 
 		}
-
-		for (int i = 1; i <= row2.getChildCount(); i++) {
-
-			// Get the id of the cell from the android:tag and -1 from it to
-			// make it usable for the array
-			arrayIndex = Integer.parseInt(((ViewGroup) row2.getChildAt(i - 1))
-					.getChildAt(0).getTag().toString());
-			cells[arrayIndex] = (LinearLayout) row2.getChildAt(i - 1);
-
-		}
-
-		for (int i = 1; i <= row3.getChildCount(); i++) {
-
-			// Get the id of the cell from the android:tag and -1 from it to
-			// make it usable for the array
-			arrayIndex = Integer.parseInt(((ViewGroup) row3.getChildAt(i - 1))
-					.getChildAt(0).getTag().toString());
-			cells[arrayIndex] = (LinearLayout) row3.getChildAt(i - 1);
-
+		
+		for (LinearLayout i : cells) {
+			
+			System.out.println(i);
+			
 		}
 
 		// Set up our cell click listeners
@@ -174,8 +181,7 @@ public class GameActivity extends Activity implements OnClickListener {
 
 			if (game.getStatus() == game.ACTIVE) {
 
-				if (game.getGridValue(cellId) != 1
-						|| game.getGridValue(cellId) != 2) {
+				if (game.getGridValue(cellId) == 0) {
 
 					System.out.println("Player 1 to p" + (cellId));
 					game.setGridValue(cellId, human.getType());
@@ -232,7 +238,8 @@ public class GameActivity extends Activity implements OnClickListener {
 			}
 
 			// Check AGAIN if the game is finished
-			if (game.getStatus() != game.FINISHED && game.checkIfGridFull(game.getGridValues()) == game.UNFINISHED) {
+			if (game.getStatus() != game.FINISHED
+					&& game.checkIfGridFull(game.getGridValues()) == game.UNFINISHED) {
 
 				// Let the CPU make it's move!
 				int cpuNextMove = computer.getNextMove(game.getGridValues());

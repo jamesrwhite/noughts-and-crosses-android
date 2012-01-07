@@ -8,12 +8,12 @@ public class Game {
 	public final int WAITING = 2;
 	public final int UNFINISHED = 3;
 	public final int FINISHED = 4;
-	private final int NOUGHT = 1;
-	private final int CROSS = 2;
+	private final int NOUGHT = -1;
+	private final int CROSS = 1;
 	// Make the array length 10 as opposed to 9 so we don't
 	// have to used a 0 based index as it makes it really messy
 	// having to use -1's everywhere, gridValues[0] will be ignored
-	private int[] gridValues = new int[10];
+	private int[] gridValues = new int[9];
 
 	/**
 	 * @return the game score
@@ -142,91 +142,38 @@ public class Game {
 	 */
 	public int checkIfGameWon(int[] gridValues) {
 
-		int sum;
+		int patternPart1, patternPart2, patternPart3, sum;
 
-		// Check each possible combination (8) to see if they have won
-		// winning combinations add up to 15 or 30
-		// 15 being noughts and 30 being crosses
-
-		// * * *
-		// - - -
-		// - - -
-		sum = (gridValues[4] * 4) + (gridValues[3] * 3) + (gridValues[8] * 8);
-		if (sum == 15)
-			return this.NOUGHT;
-
-		else if (sum == 30)
-			return this.CROSS;
-
-		// - - -
-		// * * *
-		// - - -
-		sum = (gridValues[9] * 9) + (gridValues[5] * 5) + (gridValues[1] * 1);
-		if (sum == 15)
-			return this.NOUGHT;
-
-		else if (sum == 30)
-			return this.CROSS;
-
-		// - - -
-		// - - -
-		// * * *
-		sum = (gridValues[2] * 2) + (gridValues[7] * 7) + (gridValues[6] * 6);
-		if (sum == 15)
-			return this.NOUGHT;
-
-		else if (sum == 30)
-			return this.CROSS;
-
-		// * - -
-		// * - -
-		// * - -
-		sum = (gridValues[4] * 4) + (gridValues[9] * 9) + (gridValues[2] * 2);
-		if (sum == 15)
-			return this.NOUGHT;
-
-		else if (sum == 30)
-			return this.CROSS;
-
-		// - * -
-		// - * -
-		// - * -
-		sum = (gridValues[3] * 3) + (gridValues[5] * 5) + (gridValues[7] * 7);
-		if (sum == 15)
-			return this.NOUGHT;
-
-		else if (sum == 30)
-			return this.CROSS;
-
-		// - - *
-		// - - *
-		// - - *
-		sum = (gridValues[8] * 8) + (gridValues[1] * 1) + (gridValues[6] * 6);
-		if (sum == 15)
-			return this.NOUGHT;
-
-		else if (sum == 30)
-			return this.CROSS;
-
-		// * - -
-		// - * -
-		// - - *
-		sum = (gridValues[4] * 4) + (gridValues[5] * 5) + (gridValues[6] * 6);
-		if (sum == 15)
-			return this.NOUGHT;
-
-		else if (sum == 30)
-			return this.CROSS;
-
-		// * - -
-		// - * -
-		// - - *
-		sum = (gridValues[8] * 8) + (gridValues[5] * 5) + (gridValues[2] * 2);
-		if (sum == 15)
-			return this.NOUGHT;
-
-		else if (sum == 30)
-			return this.CROSS;
+		// The 8 possible winning patterns
+		String[] winningPatterns = {
+				"0,1,2",
+				"3,4,5",
+				"6,7,8",
+				"0,3,6",
+				"1,4,7",
+				"2,5,8",
+				"0,4,8",
+				"2,4,6"
+		};
+		
+		// Loop through the patterns and see if any match
+		for (String pattern : winningPatterns) {
+			
+			String patternParts[] = pattern.split(",");
+			
+			patternPart1 = Integer.parseInt(patternParts[0]);
+			patternPart2 = Integer.parseInt(patternParts[1]);
+			patternPart3 = Integer.parseInt(patternParts[2]);
+			
+			sum = gridValues[patternPart1] + gridValues[patternPart2] + gridValues[patternPart3];
+			
+			if (sum == -3 || sum == 3) {
+			
+				return sum/3;
+				
+			}
+			
+		}
 
 		// If nothing matches, then nobody has won..
 		return 0;
