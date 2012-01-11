@@ -21,7 +21,7 @@
 
             <TextView
                 android:id="@+id/cell1Value"
-                android:tag="0"
+                android:tag="8"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center" />
@@ -51,7 +51,7 @@
 
             <TextView
                 android:id="@+id/cell3Value"
-                android:tag="2"
+                android:tag="6"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center" />
@@ -90,7 +90,7 @@
 
             <TextView
                 android:id="@+id/cell5Value"
-                android:tag="4"
+                android:tag="5"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center" />
@@ -105,7 +105,7 @@
 
             <TextView
                 android:id="@+id/cell6Value"
-                android:tag="5"
+                android:tag="7"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center" />
@@ -129,7 +129,7 @@
 
             <TextView
                 android:id="@+id/cell7Value"
-                android:tag="6"
+                android:tag="4"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center" />
@@ -144,7 +144,7 @@
 
             <TextView
                 android:id="@+id/cell8Value"
-                android:tag="7"
+                android:tag="9"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center" />
@@ -159,7 +159,7 @@
 
             <TextView
                 android:id="@+id/cell9Value"
-                android:tag="8"
+                android:tag="2"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center" />
