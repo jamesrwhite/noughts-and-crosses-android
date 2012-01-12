@@ -6,6 +6,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.Editable;
@@ -31,6 +32,9 @@ public class GameActivity extends Activity implements OnClickListener {
 	private LinearLayout parent;
 	private TextView child;
 	private LinearLayout[] cells;
+	
+	// Define our external font used in the game
+	Typeface alphaMack;
 
 	// Create our players
 	private HumanPlayer human = new HumanPlayer();
@@ -38,6 +42,8 @@ public class GameActivity extends Activity implements OnClickListener {
 
 	// Create the game
 	private Game game = new Game();
+	
+	
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -62,6 +68,8 @@ public class GameActivity extends Activity implements OnClickListener {
 				human.setType(game.getNoughtValue());
 				computer.setType(game.getCrossValue());
 
+				game.setCurrentTurn(game.getNoughtValue());
+
 				EditText playerName = (EditText) dialog
 						.findViewById(R.id.playerName);
 				String playerNameString = playerName.getText().toString();
@@ -82,6 +90,8 @@ public class GameActivity extends Activity implements OnClickListener {
 				// Get the players name and type choice
 				human.setType(game.getCrossValue());
 				computer.setType(game.getNoughtValue());
+
+				game.setCurrentTurn(game.getCrossValue());
 
 				EditText playerName = (EditText) dialog
 						.findViewById(R.id.playerName);
@@ -105,12 +115,12 @@ public class GameActivity extends Activity implements OnClickListener {
 
 		// Populate the cells array with each LinearLayout grid cell
 		for (int i = 0; i < row1.getChildCount(); i++) {
-			
+
 			childLinear = (LinearLayout) row1.getChildAt(i);
 			childText = (TextView) childLinear.getChildAt(0);
 			arrayIndex = Integer.parseInt((String) childText.getTag());
-			
-			cells[arrayIndex-1] = childLinear;
+
+			cells[arrayIndex - 1] = childLinear;
 
 		}
 
@@ -119,8 +129,8 @@ public class GameActivity extends Activity implements OnClickListener {
 			childLinear = (LinearLayout) row2.getChildAt(i);
 			childText = (TextView) childLinear.getChildAt(0);
 			arrayIndex = Integer.parseInt((String) childText.getTag());
-			
-			cells[arrayIndex-1] = childLinear;
+
+			cells[arrayIndex - 1] = childLinear;
 
 		}
 
@@ -129,18 +139,24 @@ public class GameActivity extends Activity implements OnClickListener {
 			childLinear = (LinearLayout) row3.getChildAt(i);
 			childText = (TextView) childLinear.getChildAt(0);
 			arrayIndex = Integer.parseInt((String) childText.getTag());
-			
-			cells[arrayIndex-1] = childLinear;
+
+			cells[arrayIndex - 1] = childLinear;
 
 		}
+
+		// Set the onClickListeners for each of the cells and the font for the TextView's
+		alphaMack = Typeface.createFromAsset(getApplicationContext().getAssets(),"fonts/alphamack.ttf");
+		TextView textView;
 		
-		// 
 		for (LinearLayout cell : cells) {
-			
+
 			cell.setOnClickListener(this);
 			
+			textView = (TextView) cell.getChildAt(0);
+			textView.setTypeface(alphaMack);
+
 		}
-		
+
 		// Let the games begin!
 		game.setup();
 
@@ -148,14 +164,15 @@ public class GameActivity extends Activity implements OnClickListener {
 
 	@Override
 	public void onClick(View v) {
-		
-		// Make sure it's the humans go first
-		game.setCurrentTurn(human.getType());
 
 		// Set the value for the clicked cell
 		parent = (LinearLayout) findViewById(v.getId());
 		child = (TextView) parent.getChildAt(0);
 		cellId = Integer.parseInt(child.getTag().toString());
+
+		// To be sure people are spam tapping the keyboard, temporarily
+		// remove the click listeners
+		removeClickListeners();
 
 		// Set up the Alert Dialog to be used in the game logic
 		final AlertDialog.Builder builder = new AlertDialog.Builder(this)
@@ -204,15 +221,16 @@ public class GameActivity extends Activity implements OnClickListener {
 		// Check the game is active and not finished
 		if (game.getStatus() == game.ACTIVE) {
 
-			System.out.println(game.getCurrentTurn() + " vs " + human.getType());
+			System.out
+					.println(game.getCurrentTurn() + " vs " + human.getType());
 
 			if (game.getCurrentTurn() == human.getType()) {
 
-				if (game.getGridValue(cellId-1) == 0) {
+				if (game.getGridValue(cellId - 1) == 0) {
 
 					// Update the TextView and gridValues Array
 					System.out.println("Player 1 to p" + (cellId));
-					game.setGridValue((cellId-1), human.getType());
+					game.setGridValue((cellId - 1), human.getType());
 					child.setText(game.getStringFromPlayerType(human.getType()));
 
 					// Check if the move just made wins the game
@@ -245,18 +263,11 @@ public class GameActivity extends Activity implements OnClickListener {
 					toast = Toast.makeText(context, text, duration);
 					toast.cancel(); // Cancel any already visible slices
 					toast.show();
+					
+					// They failed, so let them have another pick..
+					reAddClickListeners();
 
 				}
-
-			}
-
-			// Inform the player it is not their turn!
-			else {
-
-				text = "Wait your turn!";
-				toast = Toast.makeText(context, text, duration);
-				toast.cancel(); // Cancel any already visible slices
-				toast.show();
 
 			}
 
@@ -265,67 +276,98 @@ public class GameActivity extends Activity implements OnClickListener {
 		// Check again that the game is active!
 		if (game.getStatus() == game.ACTIVE) {
 
-			//
-			// CPU Game Logic
-			//
+			if (game.getCurrentTurn() == computer.getType()) {
 
-			// Check if the grid is full first before we begin
-			if (game.checkIfGridFull() == game.FINISHED
-					&& game.getWinner() == 0) {
+				//
+				// CPU Game Logic
+				//
 
-				builder.setMessage("Draw! Do you want to play again?");
-				AlertDialog alert = builder.create();
-				alert.show();
+				// Check if the grid is full first before we begin
+				if (game.checkIfGridFull() == game.FINISHED
+						&& game.getWinner() == 0) {
 
-				// Update the game status
-				game.setStatus(game.FINISHED);
+					builder.setMessage("Draw! Do you want to play again?");
+					AlertDialog alert = builder.create();
+					alert.show();
 
-			}
+					// Update the game status
+					game.setStatus(game.FINISHED);
 
-			if (game.getStatus() != game.FINISHED) {
+				}
 
-				text = "CPU is thinking..";
-				toast = Toast.makeText(context, text, duration);
-				toast.cancel(); // Cancel any already visible slices
-				toast.show();
+				if (game.getStatus() != game.FINISHED) {
 
-				// Wait two seconds before showing the move to the player
-				Handler handler = new Handler();
-				handler.postDelayed(new Runnable() {
+					text = "CPU is thinking..";
+					toast = Toast.makeText(context, text, duration);
+					toast.cancel(); // Cancel any already visible slices
+					toast.show();
 
-					public void run() {
+					// Wait two seconds before showing the move to the player
+					Handler handler = new Handler();
+					handler.postDelayed(new Runnable() {
 
-						int cpuNextMove = computer.getNextMove(game.getGridValues());
-						TextView cpuTextView = (TextView) cells[cpuNextMove-1].getChildAt(0);
-						cpuTextView.setText(game.getStringFromPlayerType(computer.getType()));
-						game.setGridValue((cpuNextMove-1), computer.getType());
+						public void run() {
 
-						// Check if the CPU's last move won it the game
-						if (game.checkIfGameWon() == computer.getType()) {
+							int cpuNextMove = computer.getNextMove(game
+									.getGridValues());
+							TextView cpuTextView = (TextView) cells[cpuNextMove - 1]
+									.getChildAt(0);
+							cpuTextView.setText(game
+									.getStringFromPlayerType(computer.getType()));
+							game.setGridValue((cpuNextMove - 1),
+									computer.getType());
 
-							builder.setMessage("You Lost! Do you want to play again?");
-							AlertDialog alert = builder.create();
-							alert.show();
+							// Check if the CPU's last move won it the game
+							if (game.checkIfGameWon() == computer.getType()) {
 
-							// Update the game status
-							game.setStatus(game.FINISHED);
-							game.setWinner(computer.getType());
+								builder.setMessage("You Lost! Do you want to play again?");
+								AlertDialog alert = builder.create();
+								alert.show();
+
+								// Update the game status
+								game.setStatus(game.FINISHED);
+								game.setWinner(computer.getType());
+
+							}
+
+							// Otherwise carry on
+							else {
+
+								game.setStatus(game.ACTIVE);
+								game.setCurrentTurn(human.getType());
+
+								// Now we can add in the click listeners again
+								reAddClickListeners();
+								
+							}
 
 						}
 
-						// Otherwise carry on
-						else {
+					}, 3000);
 
-							game.setCurrentTurn(human.getType());
-							game.setStatus(game.ACTIVE);
-
-						}
-
-					}
-
-				}, 3000);
+				}
 
 			}
+
+		}
+
+	}
+
+	public void removeClickListeners() {
+
+		for (LinearLayout cell : cells) {
+
+			cell.setOnClickListener(null);
+
+		}
+
+	}
+
+	public void reAddClickListeners() {
+
+		for (LinearLayout cell : cells) {
+
+			cell.setOnClickListener(this);
 
 		}
 

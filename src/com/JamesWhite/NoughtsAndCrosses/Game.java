@@ -8,9 +8,10 @@ public class Game {
 	private int score;
 	private int time;
 	private int status;
-		public final int ACTIVE = 1;
-		public final int FINISHED = 0;
-	private int currentTurn = 0; // What players go is it? Based on what type they are, +-1
+	public final int ACTIVE = 1;
+	public final int FINISHED = 0;
+	private int currentTurn = 0; // What players go is it? Based on what type
+									// they are, +-1
 	private int winner = 0;
 	private final int NOUGHT = -1;
 	private final int CROSS = 1;
@@ -27,7 +28,7 @@ public class Game {
 
 	/**
 	 * @param score
-	 * set the game score
+	 *            set the game score
 	 */
 	public void setScore(int score) {
 
@@ -39,45 +40,47 @@ public class Game {
 	 * @return the time
 	 */
 	public int getTime() {
-		
+
 		return time;
-		
+
 	}
 
 	/**
-	 * @param time the time to set
+	 * @param time
+	 *            the time to set
 	 */
 	public void setTime(int time) {
-		
+
 		this.time = time;
-		
+
 	}
-	
+
 	/**
 	 * Update the time based on the current unix timestamp
 	 */
 	public void updateTime() {
-		
+
 		this.setTime((int) (System.currentTimeMillis() / 1000L));
-		
+
 	}
 
 	/**
 	 * @return the currentTurn
 	 */
 	public int getCurrentTurn() {
-		
+
 		return currentTurn;
-		
+
 	}
 
 	/**
-	 * @param currentTurn the currentTurn to set, +- 1
+	 * @param currentTurn
+	 *            the currentTurn to set, +- 1
 	 */
 	public void setCurrentTurn(int currentTurn) {
-		
+
 		this.currentTurn = currentTurn;
-		
+
 	}
 
 	/**
@@ -88,7 +91,8 @@ public class Game {
 	}
 
 	/**
-	 * @param winner the winner to set
+	 * @param winner
+	 *            the winner to set
 	 */
 	public void setWinner(int winner) {
 		this.winner = winner;
@@ -105,7 +109,7 @@ public class Game {
 
 	/**
 	 * @param status
-	 * set the game status with one of the status constants
+	 *            set the game status with one of the status constants
 	 */
 	public void setStatus(int status) {
 
@@ -133,8 +137,7 @@ public class Game {
 
 	/**
 	 * @return String value of the player type given as a parameter
-	 * @param int player type
-	 * Used for setting the text in the XML layout files
+	 * @param int player type Used for setting the text in the XML layout files
 	 */
 	public String getStringFromPlayerType(int type) {
 
@@ -146,7 +149,8 @@ public class Game {
 
 		else if (type == this.NOUGHT) {
 
-			return "0";
+			return "O"; // Use O instad of 0 as it looks better with the font we
+						// are using
 
 		}
 
@@ -171,14 +175,15 @@ public class Game {
 		return gridValues[index];
 
 	}
-	
+
 	/**
 	 * 
 	 */
 
 	/**
 	 * @param gridValues
-	 * @return game status Take the game grid and see if all the positions are taken
+	 * @return game status Take the game grid and see if all the positions are
+	 *         taken
 	 */
 	public int checkIfGridFull() {
 
@@ -205,8 +210,9 @@ public class Game {
 		int patternPart1, patternPart2, patternPart3, sum;
 
 		// The 8 possible winning patterns
-		String[] winningPatterns = {"8,1,6", "3,5,7", "4,9,2", "8,3,4", "1,5,9", "6,7,2", "8,5,2", "6,5,4"};
-		
+		String[] winningPatterns = { "8,1,6", "3,5,7", "4,9,2", "8,3,4",
+				"1,5,9", "6,7,2", "8,5,2", "6,5,4" };
+
 		// Shuffle it!
 		Collections.shuffle(Arrays.asList(winningPatterns));
 
@@ -219,7 +225,8 @@ public class Game {
 			patternPart2 = Integer.parseInt(patternParts[1]);
 			patternPart3 = Integer.parseInt(patternParts[2]);
 
-			sum = gridValues[patternPart1-1] + gridValues[patternPart2-1] + gridValues[patternPart3-1];
+			sum = gridValues[patternPart1 - 1] + gridValues[patternPart2 - 1]
+					+ gridValues[patternPart3 - 1];
 
 			// If the Sum of the 3 grid cells is +-3 then they have won
 			// return +- to say which type has won, 1 being crosses and 0
@@ -253,9 +260,9 @@ public class Game {
 	public void resetGrid() {
 
 		for (int i = 0; i < this.getGridValues().length; i++) {
-			
+
 			this.setGridValue(i, 0);
-			
+
 		}
 
 	}
@@ -266,7 +273,7 @@ public class Game {
 	public void setup() {
 
 		this.resetGrid();
-		
+
 		this.setScore(0);
 		this.updateTime();
 		this.setStatus(ACTIVE);
