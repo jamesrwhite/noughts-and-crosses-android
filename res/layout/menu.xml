@@ -4,16 +4,33 @@
     android:layout_height="fill_parent"
     android:orientation="vertical" >
 
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dip"
+        android:layout_marginTop="50dip"
+        android:gravity="center"
+        android:text="Noughts\n+\nCrosses"
+        android:textSize="60sp" />
+
     <Button
         android:id="@+id/newGameButton"
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="10dip"
+        android:layout_marginLeft="80dip"
+        android:layout_marginRight="80dip"
+        android:gravity="center"
         android:text="New Game" />
 
     <Button
         android:id="@+id/newHighScores"
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="80dip"
+        android:layout_marginRight="80dip"
+        android:gravity="center"
         android:text="High Scores" />
 
 </LinearLayout>

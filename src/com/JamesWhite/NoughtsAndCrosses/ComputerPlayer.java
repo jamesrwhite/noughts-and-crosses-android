@@ -14,10 +14,10 @@ public class ComputerPlayer extends Player {
 		String[] twoInARowPatterns = { "8,1", "1,6", "3,5", "5,7", "4,9",
 				"9,2", "8,3", "3,4", "1,5", "5,9", "6,7", "7,2", "8,5", "5,2",
 				"6,5", "5,4", "6,2", "8,6", "8,4", "6,4", "8,2", "9,1" };
-		
+
 		// Shuffle it!
 		Collections.shuffle(Arrays.asList(twoInARowPatterns));
-		
+
 		// First look if the game can be won by the CPU
 		for (String pattern : twoInARowPatterns) {
 
@@ -31,17 +31,15 @@ public class ComputerPlayer extends Player {
 			if (gridValues[patternPart1 - 1] == super.getType()
 					&& gridValues[patternPart2 - 1] == super.getType()
 					&& gridValues[placeToGo - 1] == 0) {
-				
-				System.out.println("hey");
-				System.out.println(15 - (patternPart1 + patternPart2));
 
 				return placeToGo;
 
 			}
 
 		}
-		
-		// Then look to see if we need to defend against any possible winning moves
+
+		// Then look to see if we need to defend against any possible winning
+		// moves
 		for (String pattern : twoInARowPatterns) {
 
 			String patternParts[] = pattern.split(",");
@@ -51,8 +49,8 @@ public class ComputerPlayer extends Player {
 
 			int placeToGo = 15 - (patternPart1 + patternPart2);
 
-			if (gridValues[patternPart1 - 1] == (-1*super.getType())
-					&& gridValues[patternPart2 - 1] == (-1*super.getType())
+			if (gridValues[patternPart1 - 1] == (-1 * super.getType())
+					&& gridValues[patternPart2 - 1] == (-1 * super.getType())
 					&& gridValues[placeToGo - 1] == 0) {
 
 				System.out.println(15 - (patternPart1 + patternPart2));
@@ -62,19 +60,44 @@ public class ComputerPlayer extends Player {
 			}
 
 		}
-		
-		// If neither of the above are needed, go somewhere random
+
+		// If we can't block a winning move or make one of our own at least go
+		// somewhere that's vaguely useful! i.e somewhere that could lead to a
+		// win
+		// String[] surroundingPositions = { "8,6,5", "7,5,9", "8,5,4", "3,5,9",
+		// "8,1,6,7,2,9,4", "1,5,7", "6,5,2", "1,5,3", "4,5,2" };
+		//
+		// for (int i = 0; i < gridValues.length; i++) {
+		//
+		// if (gridValues[i] == super.getType()) {
+		//
+		// String surroundingPosition[] = surroundingPositions[i]
+		// .split(",");
+		//
+		// // Shuffle it!
+		// Collections.shuffle(Arrays.asList(surroundingPosition));
+		//
+		// for (String position : surroundingPosition) {
+		//
+		// int positionInt = Integer.parseInt(position);
+		//
+		// if (gridValues[positionInt - 1] == 0) {
+		//
+		// System.out.println("Going to" + (positionInt - 1));
+		// return positionInt;
+		//
+		// }
+		//
+		// }
+		//
+		// }
+		//
+		// }
+
+		// If neither of the above are relevant, go somewhere random
 		int nextMove = (int) Math.round(Math.random() * 8);
 
-		System.out.println("p" + nextMove);
-
-		if (gridValues[nextMove] == 0) {
-
-			System.out.println("FOUND A PLACE TO GO @ p" + nextMove);
-
-		}
-
-		else {
+		if (gridValues[nextMove] != 0) {
 
 			this.getNextMove(gridValues);
 

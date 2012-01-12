@@ -8,7 +8,7 @@ public class HumanPlayer extends Player {
 		// with the new position the player
 		// wishes to move to
 		
-		game.setGridValue(gridPosition, this.getType());
+		game.setGridValue(gridPosition, super.getType());
 		
 	}
 

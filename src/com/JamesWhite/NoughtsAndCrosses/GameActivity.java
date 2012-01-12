@@ -42,8 +42,6 @@ public class GameActivity extends Activity implements OnClickListener {
 
 	// Create the game
 	private Game game = new Game();
-	
-	
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
