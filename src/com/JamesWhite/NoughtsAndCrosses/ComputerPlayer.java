@@ -5,8 +5,6 @@ import java.util.Collections;
 
 public class ComputerPlayer extends Player {
 
-	int nextMove;
-
 	public int getNextMove(int[] gridValues) {
 
 		// 8 1 6
@@ -19,7 +17,8 @@ public class ComputerPlayer extends Player {
 		
 		// Shuffle it!
 		Collections.shuffle(Arrays.asList(twoInARowPatterns));
-
+		
+		// First look if the game can be won by the CPU
 		for (String pattern : twoInARowPatterns) {
 
 			String patternParts[] = pattern.split(",");
@@ -42,6 +41,7 @@ public class ComputerPlayer extends Player {
 
 		}
 		
+		// Then look to see if we need to defend against any possible winning moves
 		for (String pattern : twoInARowPatterns) {
 
 			String patternParts[] = pattern.split(",");
@@ -62,8 +62,9 @@ public class ComputerPlayer extends Player {
 			}
 
 		}
-
-		nextMove = (int) Math.round(Math.random() * 8);
+		
+		// If neither of the above are needed, go somewhere random
+		int nextMove = (int) Math.round(Math.random() * 8);
 
 		System.out.println("p" + nextMove);
 

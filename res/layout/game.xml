@@ -24,9 +24,19 @@
                 android:id="@+id/cell1Value"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_weight="9"
                 android:gravity="center"
                 android:tag="8"
                 android:textSize="90sp" />
+
+            <LinearLayout
+                android:id="@+id/verticalBorder1"
+                android:layout_width="4dip"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="#AAA"
+                android:orientation="horizontal" >
+            </LinearLayout>
         </LinearLayout>
 
         <LinearLayout
@@ -40,9 +50,19 @@
                 android:id="@+id/cell2Value"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_weight="9"
                 android:gravity="center"
                 android:tag="1"
                 android:textSize="90sp" />
+
+            <LinearLayout
+                android:id="@+id/verticalBorder2"
+                android:layout_width="4dip"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="#AAA"
+                android:orientation="horizontal" >
+            </LinearLayout>
         </LinearLayout>
 
         <LinearLayout
@@ -64,6 +84,14 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/horizontalBorder1"
+        android:layout_width="fill_parent"
+        android:layout_height="3dip"
+        android:background="#AAA"
+        android:orientation="horizontal" >
+    </LinearLayout>
+
+    <LinearLayout
         android:id="@+id/row2"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
@@ -82,9 +110,19 @@
                 android:id="@+id/cell4Value"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_weight="9"
                 android:gravity="center"
                 android:tag="3"
                 android:textSize="90sp" />
+
+            <LinearLayout
+                android:id="@+id/verticalBorder3"
+                android:layout_width="4dip"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="#AAA"
+                android:orientation="horizontal" >
+            </LinearLayout>
         </LinearLayout>
 
         <LinearLayout
@@ -99,9 +137,19 @@
                 android:id="@+id/cell5Value"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_weight="9"
                 android:gravity="center"
                 android:tag="5"
                 android:textSize="90sp" />
+
+            <LinearLayout
+                android:id="@+id/verticalBorder4"
+                android:layout_width="4dip"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="#AAA"
+                android:orientation="horizontal" >
+            </LinearLayout>
         </LinearLayout>
 
         <LinearLayout
@@ -119,6 +167,14 @@
                 android:tag="7"
                 android:textSize="90sp" />
         </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/horizontalBorder2"
+        android:layout_width="fill_parent"
+        android:layout_height="3dip"
+        android:background="#AAA"
+        android:orientation="horizontal" >
     </LinearLayout>
 
     <LinearLayout
@@ -141,9 +197,19 @@
                 android:id="@+id/cell7Value"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_weight="9"
                 android:gravity="center"
                 android:tag="4"
                 android:textSize="90sp" />
+
+            <LinearLayout
+                android:id="@+id/verticalBorder5"
+                android:layout_width="4dip"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="#AAA"
+                android:orientation="horizontal" >
+            </LinearLayout>
         </LinearLayout>
 
         <LinearLayout
@@ -157,9 +223,19 @@
                 android:id="@+id/cell8Value"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_weight="9"
                 android:gravity="center"
                 android:tag="9"
                 android:textSize="90sp" />
+
+            <LinearLayout
+                android:id="@+id/verticalBorder6"
+                android:layout_width="4dip"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="#AAA"
+                android:orientation="horizontal" >
+            </LinearLayout>
         </LinearLayout>
 
         <LinearLayout
