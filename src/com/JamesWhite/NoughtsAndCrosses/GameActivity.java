@@ -35,6 +35,9 @@ public class GameActivity extends Activity implements OnClickListener {
 	
 	// Define our external font used in the game
 	Typeface alphaMack;
+	
+	// Define our TextView used to show the score
+	private TextView score;
 
 	// Create our players
 	private HumanPlayer human = new HumanPlayer();
@@ -154,6 +157,9 @@ public class GameActivity extends Activity implements OnClickListener {
 			textView.setTypeface(alphaMack);
 
 		}
+		
+		// Create out text view to show the score
+		score = (TextView) findViewById(R.id.highScoreValue);
 
 		// Let the games begin!
 		game.setup();
@@ -219,17 +225,20 @@ public class GameActivity extends Activity implements OnClickListener {
 		// Check the game is active and not finished
 		if (game.getStatus() == game.ACTIVE) {
 
-			System.out
-					.println(game.getCurrentTurn() + " vs " + human.getType());
-
 			if (game.getCurrentTurn() == human.getType()) {
 
 				if (game.getGridValue(cellId - 1) == 0) {
 
 					// Update the TextView and gridValues Array
-					System.out.println("Player 1 to p" + (cellId));
 					game.setGridValue((cellId - 1), human.getType());
 					child.setText(game.getStringFromPlayerType(human.getType()));
+					
+					// +1 to the games moves
+					game.setMoves(game.getMoves() + 1);
+					
+					// Update the game score
+					game.updateScore();
+					score.setText("" + game.getScore() + "");
 
 					// Check if the move just made wins the game
 					if (game.checkIfGameWon() != 0) {
@@ -299,12 +308,19 @@ public class GameActivity extends Activity implements OnClickListener {
 					toast = Toast.makeText(context, text, duration);
 					toast.cancel(); // Cancel any already visible slices
 					toast.show();
+					
+					// +1 to the games moves
+					game.setMoves(game.getMoves() + 1);
 
 					// Wait two seconds before showing the move to the player
 					Handler handler = new Handler();
 					handler.postDelayed(new Runnable() {
 
 						public void run() {
+							
+							// Update the game score
+							game.updateScore();
+							score.setText("" + game.getScore() + "");
 
 							int cpuNextMove = computer.getNextMove(game
 									.getGridValues());
@@ -341,7 +357,7 @@ public class GameActivity extends Activity implements OnClickListener {
 
 						}
 
-					}, 3000);
+					}, 2500);
 
 				}
 

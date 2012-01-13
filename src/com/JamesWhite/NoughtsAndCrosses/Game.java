@@ -5,14 +5,16 @@ import java.util.Collections;
 
 public class Game {
 
-	private int score;
-	private int time;
-	private int status;
 	public final int ACTIVE = 1;
 	public final int FINISHED = 0;
-	private int currentTurn = 0; // What players go is it? Based on what type
-									// they are, +-1
+
+	private int score = 0;
+	private int startTime;
+	private int time;
+	private int status;
+	private int currentTurn = 0; // Whose go is it? Based on what type they are
 	private int winner = 0;
+	private int moves = 0;
 	private final int NOUGHT = -1;
 	private final int CROSS = 1;
 	private int[] gridValues = new int[9];
@@ -23,6 +25,19 @@ public class Game {
 	public int getScore() {
 
 		return score;
+
+	}
+
+	/**
+	 * Update the current score, lower is better
+	 */
+	public void updateScore() {
+		
+		this.updateTime();
+		
+		int score = this.score + ((this.getTime() - this.startTime) * this.getMoves());
+
+		this.setScore(score);
 
 	}
 
@@ -74,6 +89,16 @@ public class Game {
 	}
 
 	/**
+	 * Set the start time of the game
+	 * @param time 
+	 */
+	public void setStartTime(int startTime) {
+
+		this.startTime = startTime;
+
+	}
+
+	/**
 	 * @param currentTurn
 	 *            the currentTurn to set, +- 1
 	 */
@@ -96,6 +121,25 @@ public class Game {
 	 */
 	public void setWinner(int winner) {
 		this.winner = winner;
+	}
+
+	/**
+	 * @return the moves
+	 */
+	public int getMoves() {
+
+		return moves;
+
+	}
+
+	/**
+	 * @param moves
+	 *            the moves to set
+	 */
+	public void setMoves(int moves) {
+
+		this.moves = moves;
+
 	}
 
 	/**
@@ -273,11 +317,10 @@ public class Game {
 	public void setup() {
 
 		this.resetGrid();
-
-		this.setScore(0);
 		this.updateTime();
+		this.setStartTime(this.getTime());
+		this.setScore(0);
 		this.setStatus(ACTIVE);
 
 	}
-
 }

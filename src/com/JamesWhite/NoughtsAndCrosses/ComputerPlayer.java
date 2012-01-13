@@ -31,9 +31,9 @@ public class ComputerPlayer extends Player {
 			if (gridValues[patternPart1 - 1] == super.getType()
 					&& gridValues[patternPart2 - 1] == super.getType()
 					&& gridValues[placeToGo - 1] == 0) {
-
+				
 				return placeToGo;
-
+				
 			}
 
 		}
@@ -52,9 +52,7 @@ public class ComputerPlayer extends Player {
 			if (gridValues[patternPart1 - 1] == (-1 * super.getType())
 					&& gridValues[patternPart2 - 1] == (-1 * super.getType())
 					&& gridValues[placeToGo - 1] == 0) {
-
-				System.out.println(15 - (patternPart1 + patternPart2));
-
+				
 				return placeToGo;
 
 			}
@@ -83,7 +81,6 @@ public class ComputerPlayer extends Player {
 		//
 		// if (gridValues[positionInt - 1] == 0) {
 		//
-		// System.out.println("Going to" + (positionInt - 1));
 		// return positionInt;
 		//
 		// }
@@ -95,14 +92,16 @@ public class ComputerPlayer extends Player {
 		// }
 
 		// If neither of the above are relevant, go somewhere random
-		int nextMove = (int) Math.round(Math.random() * 8);
-
-		if (gridValues[nextMove] != 0) {
-
-			this.getNextMove(gridValues);
-
+		int nextMove;
+		
+		do {
+			
+			nextMove = (int) Math.round(Math.random() * 8);
+			
 		}
-
+		
+		while (gridValues[nextMove] != 0);
+			
 		return (nextMove + 1);
 
 	}

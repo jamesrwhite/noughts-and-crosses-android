@@ -7,8 +7,8 @@
     <LinearLayout
         android:id="@+id/row1"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_weight=".33"
+        android:layout_height="0px"
+        android:layout_weight="4"
         android:orientation="horizontal"
         android:tag="1" >
 
@@ -33,7 +33,7 @@
                 android:id="@+id/verticalBorder1"
                 android:layout_width="4dip"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
+                android:layout_weight="4"
                 android:background="#AAA"
                 android:orientation="horizontal" >
             </LinearLayout>
@@ -59,7 +59,7 @@
                 android:id="@+id/verticalBorder2"
                 android:layout_width="4dip"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
+                android:layout_weight="4"
                 android:background="#AAA"
                 android:orientation="horizontal" >
             </LinearLayout>
@@ -94,8 +94,8 @@
     <LinearLayout
         android:id="@+id/row2"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_weight=".33"
+        android:layout_height="0px"
+        android:layout_weight="4"
         android:orientation="horizontal"
         android:tag="2" >
 
@@ -119,7 +119,7 @@
                 android:id="@+id/verticalBorder3"
                 android:layout_width="4dip"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
+                android:layout_weight="4"
                 android:background="#AAA"
                 android:orientation="horizontal" >
             </LinearLayout>
@@ -146,7 +146,7 @@
                 android:id="@+id/verticalBorder4"
                 android:layout_width="4dip"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
+                android:layout_weight="4"
                 android:background="#AAA"
                 android:orientation="horizontal" >
             </LinearLayout>
@@ -180,8 +180,8 @@
     <LinearLayout
         android:id="@+id/row3"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_weight=".33"
+        android:layout_height="0px"
+        android:layout_weight="4"
         android:orientation="horizontal"
         android:tag="3" >
 
@@ -206,7 +206,7 @@
                 android:id="@+id/verticalBorder5"
                 android:layout_width="4dip"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
+                android:layout_weight="4"
                 android:background="#AAA"
                 android:orientation="horizontal" >
             </LinearLayout>
@@ -232,7 +232,7 @@
                 android:id="@+id/verticalBorder6"
                 android:layout_width="4dip"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
+                android:layout_weight="4"
                 android:background="#AAA"
                 android:orientation="horizontal" >
             </LinearLayout>
@@ -254,6 +254,31 @@
                 android:tag="2"
                 android:textSize="100sp" />
         </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/highScores"
+        android:layout_width="fill_parent"
+        android:layout_height="0px"
+        android:layout_weight="1"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:id="@+id/highScoreTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="7dip"
+            android:gravity="left|center"
+            android:text="Score:"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/highScoreValue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dip"
+            android:text="0" />
+
     </LinearLayout>
 
 </LinearLayout>
