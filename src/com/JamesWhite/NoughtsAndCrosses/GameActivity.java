@@ -6,6 +6,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
@@ -246,6 +247,13 @@ public class GameActivity extends Activity implements OnClickListener {
 						builder.setMessage("You Win! Do you want to play again?");
 						AlertDialog alert = builder.create();
 						alert.show();
+						
+						LocalDatabase localDb = new LocalDatabase(context, "", null, 1);
+						
+						localDb.insertScore("James White", 1337, 9999);
+						
+						Cursor scores = localDb.getScores();
+						System.out.println(scores);
 
 						// Update the game status
 						game.setStatus(game.FINISHED);
