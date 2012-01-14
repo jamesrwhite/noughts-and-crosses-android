@@ -41,7 +41,7 @@ public class MenuActivity extends Activity {
 			public void onClick(View v) {
 
 				Intent gameIntent = new Intent(MenuActivity.this, GameActivity.class);
-				MenuActivity.this.startActivity(gameIntent);
+				startActivity(gameIntent);
 				
 			}
         	
@@ -53,7 +53,7 @@ public class MenuActivity extends Activity {
 			public void onClick(View v) {
 				
 				Intent localHighScoreIntent = new Intent(MenuActivity.this, LocalHighScoreActivity.class);
-				MenuActivity.this.startActivity(localHighScoreIntent);
+				startActivity(localHighScoreIntent);
 				
 			}
         	
@@ -64,8 +64,8 @@ public class MenuActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				
-				Intent globalHighScoreIntent = new Intent(MenuActivity.this, GlobalHighScoreActivity.class);
-				MenuActivity.this.startActivity(globalHighScoreIntent);
+				Intent loadingGlobalHighScoreIntent = new Intent(MenuActivity.this, LoadingGloabalHighScoresActivity.class);
+				startActivity(loadingGlobalHighScoreIntent);
 				
 			}
         	

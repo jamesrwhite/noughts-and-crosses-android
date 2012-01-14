@@ -8,6 +8,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.ListActivity;
+import android.app.ProgressDialog;
+import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ListAdapter;
@@ -21,13 +24,29 @@ public class GlobalHighScoreActivity extends ListActivity {
 		super.onCreate(savedInstance);
 		setContentView(R.layout.globalhighscores);
 
-		// Get the JSON using our RemoteDatabase class
-		Database db = new Database(getApplicationContext());
-		JSONArray json = db.getGlobalScores();
-		
+		Intent intent = getIntent();
+		String jsonString = intent.getStringExtra("jsonArray");
+		JSONArray json = null;
+
+		try {
+
+			json = new JSONArray(jsonString);
+			displayListView(json);
+
+		}
+
+		catch (JSONException e) {
+			
+			e.printStackTrace();
+		}
+
+	}
+
+	public void displayListView(JSONArray json) {
+
 		// Build an ArrayList to store the scores
 		ArrayList<HashMap<String, String>> list = new ArrayList<HashMap<String, String>>();
-		
+
 		// Loop through the JSON and put it in our ArrayList
 		try {
 
@@ -45,24 +64,25 @@ public class GlobalHighScoreActivity extends ListActivity {
 				list.add(scores);
 
 			}
-			
+
 		}
-		
+
 		catch (JSONException e) {
 
 			Log.e("log_tag", "Error parsing data " + e.toString());
 
 		}
-		
+
 		String[] from = new String[] { "name", "score" };
-		int[] to = new int[] { R.id.globalHighScoreName, R.id.globalHighScoreInt };
-		
+		int[] to = new int[] { R.id.globalHighScoreName,
+				R.id.globalHighScoreInt };
+
 		// Add it all to our ListAdapter
 		ListAdapter highScoreAdapter = new SimpleAdapter(this, list,
 				R.layout.globalhighscoreslistview, from, to);
 
 		setListAdapter(highScoreAdapter);
-		
+
 	}
-	
+
 }
