@@ -5,14 +5,14 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.widget.SimpleCursorAdapter;
 
-public class HighScoreActivity extends ListActivity {
+public class LocalHighScoreActivity extends ListActivity {
 
 	@Override
 	public void onCreate(Bundle savedInstance) {
 
 		super.onCreate(savedInstance);
-		setContentView(R.layout.highscores);
-
+		setContentView(R.layout.localhighscores);
+		
 		LocalDatabase localDatabase = new LocalDatabase(
 				getApplicationContext(), "noughtsAndCrosses", null, 4);
 		Cursor cursor = localDatabase.getScores();
@@ -27,7 +27,7 @@ public class HighScoreActivity extends ListActivity {
 		// create the adapter using the cursor pointing to the desired data as
 		// well as the layout information
 		SimpleCursorAdapter mAdapter = new SimpleCursorAdapter(this,
-				R.layout.highscoreslistview, cursor, columns, to);
+				R.layout.localhighscoreslistview, cursor, columns, to);
 
 		// set this adapter as your ListActivity's adapter
 		this.setListAdapter(mAdapter);

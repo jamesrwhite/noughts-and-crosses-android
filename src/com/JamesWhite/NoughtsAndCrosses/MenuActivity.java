@@ -12,7 +12,8 @@ import android.widget.TextView;
 public class MenuActivity extends Activity {
 	
 	Button newGame;
-	Button highScores;
+	Button localHighScores;
+	Button globalHighScores;
 	
 	TextView title;
 	
@@ -26,7 +27,8 @@ public class MenuActivity extends Activity {
         setContentView(R.layout.menu);
         
         newGame = (Button) findViewById(R.id.newGameButton);
-        highScores = (Button) findViewById(R.id.newHighScores);
+        localHighScores = (Button) findViewById(R.id.newLocalHighScores);
+        globalHighScores = (Button) findViewById(R.id.newGlobalHighScores);
         title = (TextView) findViewById(R.id.title);
         
         alphaMack = Typeface.createFromAsset(getApplicationContext().getAssets(),"fonts/alphamack.ttf");
@@ -45,13 +47,25 @@ public class MenuActivity extends Activity {
         	
         });
         
-        highScores.setOnClickListener(new View.OnClickListener() {
+        localHighScores.setOnClickListener(new View.OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
 				
-				Intent highScoreIntent = new Intent(MenuActivity.this, HighScoreActivity.class);
-				MenuActivity.this.startActivity(highScoreIntent);
+				Intent localHighScoreIntent = new Intent(MenuActivity.this, LocalHighScoreActivity.class);
+				MenuActivity.this.startActivity(localHighScoreIntent);
+				
+			}
+        	
+        });
+        
+        globalHighScores.setOnClickListener(new View.OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				
+				Intent globalHighScoreIntent = new Intent(MenuActivity.this, GlobalHighScoreActivity.class);
+				MenuActivity.this.startActivity(globalHighScoreIntent);
 				
 			}
         	

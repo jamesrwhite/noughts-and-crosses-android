@@ -251,14 +251,9 @@ public class GameActivity extends Activity implements OnClickListener {
 						AlertDialog alert = builder.create();
 						alert.show();
 						
-						LocalDatabase localDb = new LocalDatabase(context, "", null, 0);
-						
-						localDb.insertScore(human.getName(), game.getScore(), game.getTime());
-						
-						Cursor scores = localDb.getScores();
-						System.out.println(scores);
-						
-						localDb.close();
+						Database db = new Database(getApplicationContext());
+						db.postScore(human.getName(), game.getScore(), game.getTime());
+						db.close();
 
 						// Update the game status
 						game.setStatus(game.FINISHED);

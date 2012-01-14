@@ -12,7 +12,7 @@
         android:layout_marginTop="50dip"
         android:gravity="center"
         android:text="Noughts\n+\nCrosses"
-        android:textSize="60sp" />
+        android:textSize="50sp" />
 
     <Button
         android:id="@+id/newGameButton"
@@ -25,12 +25,22 @@
         android:text="New Game" />
 
     <Button
-        android:id="@+id/newHighScores"
+        android:id="@+id/newLocalHighScores"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dip"
+        android:layout_marginLeft="80dip"
+        android:layout_marginRight="80dip"
+        android:gravity="center"
+        android:text="Local High Scores" />
+
+    <Button
+        android:id="@+id/newGlobalHighScores"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="80dip"
         android:layout_marginRight="80dip"
         android:gravity="center"
-        android:text="High Scores" />
+        android:text="Global High Scores" />
 
 </LinearLayout>
