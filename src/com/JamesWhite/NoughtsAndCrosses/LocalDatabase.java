@@ -19,16 +19,16 @@ public class LocalDatabase extends SQLiteOpenHelper {
 	public LocalDatabase(Context context, String name, CursorFactory factory,
 			int version) {
 
-		super(context, databaseName, null, 3);
+		super(context, databaseName, null, 4);
 
 	}
 
 	@Override
 	public void onCreate(SQLiteDatabase db) {
-
-		db.execSQL("CREATE TABLE " + highScoresTable + "(" + colScoreID
+		
+		db.execSQL("CREATE TABLE " + highScoresTable + "( " + colScoreID
 				+ " INTEGER PRIMARY KEY AUTOINCREMENT, " + colName + " TEXT, "
-				+ colScore + " INTEGER, " + colDate + " INTEGER " + ");");
+				+ colScore + " INTEGER, " + colDate + " INTEGER " + " );");
 
 	}
 
@@ -60,8 +60,8 @@ public class LocalDatabase extends SQLiteOpenHelper {
 
 		SQLiteDatabase db = this.getReadableDatabase();
 		
-		Cursor cursor = db.rawQuery("SELECT " + colName + ", "
-				+ colScore + " FROM " + highScoresTable, new String[] {});
+		Cursor cursor = db.rawQuery("SELECT " + colScoreID + " as _id, " + colName + ", "
+				+ colScore + " FROM " + highScoresTable + " ORDER BY " + colScore + " ASC", new String[] {});
 
 		return cursor;
 
