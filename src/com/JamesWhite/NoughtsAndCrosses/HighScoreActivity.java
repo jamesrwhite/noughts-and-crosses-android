@@ -7,17 +7,14 @@ import android.widget.SimpleCursorAdapter;
 
 public class HighScoreActivity extends ListActivity {
 
-
 	@Override
 	public void onCreate(Bundle savedInstance) {
-		
+
 		super.onCreate(savedInstance);
 		setContentView(R.layout.highscores);
 
-//		Cursor cursor = getContentResolver().query(highScores.CONTENT_URI,
-//				new String[] { People._ID, People.NAME, People.NUMBER }, null,
-//				null, null);
-		LocalDatabase localDatabase = new LocalDatabase(getApplicationContext(), "noughtsAndCrosses", null, 4);
+		LocalDatabase localDatabase = new LocalDatabase(
+				getApplicationContext(), "noughtsAndCrosses", null, 4);
 		Cursor cursor = localDatabase.getScores();
 		startManagingCursor(cursor);
 
@@ -34,6 +31,9 @@ public class HighScoreActivity extends ListActivity {
 
 		// set this adapter as your ListActivity's adapter
 		this.setListAdapter(mAdapter);
+
+		//cursor.close();
+		localDatabase.close();
 
 	}
 

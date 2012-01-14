@@ -36,7 +36,7 @@ public class LocalDatabase extends SQLiteOpenHelper {
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
 		db.execSQL("DROP TABLE IF EXISTS " + highScoresTable);
-
+		
 		onCreate(db);
 
 	}
@@ -62,7 +62,7 @@ public class LocalDatabase extends SQLiteOpenHelper {
 		
 		Cursor cursor = db.rawQuery("SELECT " + colScoreID + " as _id, " + colName + ", "
 				+ colScore + " FROM " + highScoresTable + " ORDER BY " + colScore + " ASC", new String[] {});
-
+		
 		return cursor;
 
 	}

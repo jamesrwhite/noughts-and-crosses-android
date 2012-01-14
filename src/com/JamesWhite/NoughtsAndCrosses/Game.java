@@ -314,7 +314,7 @@ public class Game {
 	/**
 	 * Do everything required to start the game
 	 */
-	public void setup() {
+	public void start() {
 
 		this.resetGrid();
 		this.updateTime();

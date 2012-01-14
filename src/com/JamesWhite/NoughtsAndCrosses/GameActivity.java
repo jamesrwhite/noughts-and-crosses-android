@@ -76,6 +76,9 @@ public class GameActivity extends Activity implements OnClickListener {
 						.findViewById(R.id.playerName);
 				String playerNameString = playerName.getText().toString();
 				human.setName(playerNameString);
+				
+				// Let the games begin!
+				game.start();
 
 				dialog.dismiss();
 
@@ -99,6 +102,9 @@ public class GameActivity extends Activity implements OnClickListener {
 						.findViewById(R.id.playerName);
 				String playerNameString = playerName.getText().toString();
 				human.setName(playerNameString);
+				
+				// Let the games begin!
+				game.start();
 
 				dialog.dismiss();
 
@@ -161,9 +167,6 @@ public class GameActivity extends Activity implements OnClickListener {
 		
 		// Create out text view to show the score
 		score = (TextView) findViewById(R.id.highScoreValue);
-
-		// Let the games begin!
-		game.setup();
 
 	}
 
@@ -254,6 +257,8 @@ public class GameActivity extends Activity implements OnClickListener {
 						
 						Cursor scores = localDb.getScores();
 						System.out.println(scores);
+						
+						localDb.close();
 
 						// Update the game status
 						game.setStatus(game.FINISHED);
