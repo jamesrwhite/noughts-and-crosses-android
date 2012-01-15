@@ -50,7 +50,7 @@ public class GameActivity extends Activity implements OnClickListener {
 		// Show our AlertDialog to select noughts/crosses
 		final AlertDialog.Builder noughtsOrCrossesDialog = new AlertDialog.Builder(
 				this)
-				.setCancelable(true)
+				.setCancelable(false)
 				.setPositiveButton("Noughts",
 						new DialogInterface.OnClickListener() {
 							public void onClick(DialogInterface dialog, int id) {

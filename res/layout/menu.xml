@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="@drawable/ic_launcher"
+    android:background="@drawable/background"
     android:orientation="vertical" >
 
     <TextView
@@ -11,6 +11,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="20dip"
         android:layout_marginTop="50dip"
+        android:textColor="#DDD"
         android:gravity="center"
         android:text="Noughts + Crosses"
         android:textSize="60sp" />
