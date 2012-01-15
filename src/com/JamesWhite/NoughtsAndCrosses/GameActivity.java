@@ -6,15 +6,11 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.database.Cursor;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
-import android.text.Editable;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -35,7 +31,7 @@ public class GameActivity extends Activity implements OnClickListener {
 	private TextView score;
 
 	// Create our players
-	private HumanPlayer human = new HumanPlayer();
+	private Player human = new Player();
 	private ComputerPlayer computer = new ComputerPlayer();
 
 	// Create the game
@@ -46,6 +42,14 @@ public class GameActivity extends Activity implements OnClickListener {
 
 		super.onCreate(savedInstanceState);
 		this.setContentView(R.layout.game);
+
+		// Get our external font
+		TextView textView;
+		Typeface alphaMack = Typeface.createFromAsset(getApplicationContext()
+				.getAssets(), "fonts/alphamack.ttf");
+		
+		// Create out text view to show the score
+		score = (TextView) findViewById(R.id.highScoreValue);
 
 		// Show our AlertDialog to select noughts/crosses
 		final AlertDialog.Builder noughtsOrCrossesDialog = new AlertDialog.Builder(
@@ -98,8 +102,11 @@ public class GameActivity extends Activity implements OnClickListener {
 
 			childLinear = (LinearLayout) row1.getChildAt(i);
 			childText = (TextView) childLinear.getChildAt(0);
+
+			// Get the cell ID from it's tag
 			arrayIndex = Integer.parseInt((String) childText.getTag());
 
+			// Add it to the array, -1 so the array is still 0 based
 			cells[arrayIndex - 1] = childLinear;
 
 		}
@@ -108,8 +115,11 @@ public class GameActivity extends Activity implements OnClickListener {
 
 			childLinear = (LinearLayout) row2.getChildAt(i);
 			childText = (TextView) childLinear.getChildAt(0);
+
+			// Get the cell ID from it's tag
 			arrayIndex = Integer.parseInt((String) childText.getTag());
 
+			// Add it to the array, -1 so the array is still 0 based
 			cells[arrayIndex - 1] = childLinear;
 
 		}
@@ -118,15 +128,14 @@ public class GameActivity extends Activity implements OnClickListener {
 
 			childLinear = (LinearLayout) row3.getChildAt(i);
 			childText = (TextView) childLinear.getChildAt(0);
+
+			// Get the cell ID from it's tag
 			arrayIndex = Integer.parseInt((String) childText.getTag());
 
+			// Add it to the array, -1 so the array is still 0 based
 			cells[arrayIndex - 1] = childLinear;
 
 		}
-
-		TextView textView;
-		Typeface alphaMack = Typeface.createFromAsset(getApplicationContext()
-				.getAssets(), "fonts/alphamack.ttf");
 
 		for (LinearLayout cell : cells) {
 
@@ -138,9 +147,6 @@ public class GameActivity extends Activity implements OnClickListener {
 			textView.setTypeface(alphaMack);
 
 		}
-
-		// Create out text view to show the score
-		score = (TextView) findViewById(R.id.highScoreValue);
 
 	}
 
@@ -161,6 +167,7 @@ public class GameActivity extends Activity implements OnClickListener {
 		gameWonDialog.setContentView(R.layout.submitscore);
 		gameWonDialog.setTitle("You Win! Submit Score?");
 
+		// Get the two buttons used in our dialog
 		Button submitScore = (Button) gameWonDialog
 				.findViewById(R.id.submitScore);
 		Button submitScoreBackToMenu = (Button) gameWonDialog
@@ -193,8 +200,8 @@ public class GameActivity extends Activity implements OnClickListener {
 				// Pass it our score to save
 				asyncSubmitGloabalHighScoresActivity.putExtra("name",
 						human.getName());
-				asyncSubmitGloabalHighScoresActivity.putExtra("score",
-						"" + game.getScore() + "");
+				asyncSubmitGloabalHighScoresActivity.putExtra("score", ""
+						+ game.getScore() + "");
 				asyncSubmitGloabalHighScoresActivity.putExtra("date",
 						"" + game.getTime() + "");
 				GameActivity.this

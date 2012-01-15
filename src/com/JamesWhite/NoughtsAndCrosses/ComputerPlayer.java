@@ -3,6 +3,11 @@ package com.JamesWhite.NoughtsAndCrosses;
 import java.util.Arrays;
 import java.util.Collections;
 
+import android.app.AlertDialog;
+import android.os.Handler;
+import android.widget.TextView;
+import android.widget.Toast;
+
 public class ComputerPlayer extends Player {
 
 	public int getNextMove(int[] gridValues) {
@@ -31,9 +36,9 @@ public class ComputerPlayer extends Player {
 			if (gridValues[patternPart1 - 1] == super.getType()
 					&& gridValues[patternPart2 - 1] == super.getType()
 					&& gridValues[placeToGo - 1] == 0) {
-				
+
 				return placeToGo;
-				
+
 			}
 
 		}
@@ -52,7 +57,7 @@ public class ComputerPlayer extends Player {
 			if (gridValues[patternPart1 - 1] == (-1 * super.getType())
 					&& gridValues[patternPart2 - 1] == (-1 * super.getType())
 					&& gridValues[placeToGo - 1] == 0) {
-				
+
 				return placeToGo;
 
 			}
@@ -93,15 +98,15 @@ public class ComputerPlayer extends Player {
 
 		// If neither of the above are relevant, go somewhere random
 		int nextMove;
-		
+
 		do {
-			
+
 			nextMove = (int) Math.round(Math.random() * 8);
-			
+
 		}
-		
+
 		while (gridValues[nextMove] != 0);
-			
+
 		return (nextMove + 1);
 
 	}
