@@ -56,9 +56,13 @@ public class LoadingGloabalHighScoresActivity extends Activity {
 			
 			// Hide the progress box
 			progress.dismiss();
+			
+			// Finish this activity
+			finish();
 
 			// Pass the JSON back to our activity
 			Intent globalHighScoreIntent = new Intent(LoadingGloabalHighScoresActivity.this, GlobalHighScoreActivity.class);
+			globalHighScoreIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 			globalHighScoreIntent.putExtra("jsonArray", result.toString());
 			startActivity(globalHighScoreIntent);
 

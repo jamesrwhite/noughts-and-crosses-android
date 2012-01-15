@@ -92,11 +92,10 @@ public class RemoteDatabase {
 
 	}
 
-	public void insertScore(String name, int score, int date) {
+	public String insertScore(String name, int score, int date) {
 
 		// initialize
 		InputStream input = null;
-		String result = "";
 
 		// http post
 		try {
@@ -115,13 +114,16 @@ public class RemoteDatabase {
 			HttpResponse response = httpclient.execute(httppost);
 			HttpEntity entity = response.getEntity();
 			input = entity.getContent();
+			
+			return input.toString();
 
 		}
 
 		catch (Exception e) {
-
+			
 			Log.e("log_tag", "Error in http connection " + e.toString());
-
+			
+			return null;
 		}
 
 	}

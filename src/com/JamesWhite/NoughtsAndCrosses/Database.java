@@ -29,13 +29,17 @@ public class Database {
 		
 	}
 	
-	public void postScore(String name, int score, int date) {
+	public String postScore(String name, int score, int date) {
 		
 		localDb = this.localDb();
 		remoteDb = this.remoteDb();
 		
 		localDb.insertScore(name, score, date);
-		remoteDb.insertScore(name, score, date);
+		String returnRemote = remoteDb.insertScore(name, score, date);
+		
+		localDb.close();
+		
+		return returnRemote;
 		
 	}
 	
@@ -56,7 +60,6 @@ public class Database {
 	public void close() {
 		
 		localDb = this.localDb();
-		
 		localDb.close();
 		
 	}

@@ -51,7 +51,7 @@ public class LocalDatabase extends SQLiteOpenHelper {
 		cv.put(colDate, date);
 
 		db.insert(highScoresTable, colScoreID, cv);
-
+		
 		db.close();
 
 	}

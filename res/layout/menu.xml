@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
+    android:background="@drawable/ic_launcher"
     android:orientation="vertical" >
 
     <TextView
@@ -11,8 +12,8 @@
         android:layout_marginBottom="20dip"
         android:layout_marginTop="50dip"
         android:gravity="center"
-        android:text="Noughts\n+\nCrosses"
-        android:textSize="50sp" />
+        android:text="Noughts + Crosses"
+        android:textSize="60sp" />
 
     <Button
         android:id="@+id/newGameButton"

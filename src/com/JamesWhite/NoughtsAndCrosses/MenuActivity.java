@@ -14,7 +14,7 @@ public class MenuActivity extends Activity {
 	Button newGame;
 	Button localHighScores;
 	Button globalHighScores;
-	
+	TextView text;
 	TextView title;
 	
 	// Define our external font used in the game

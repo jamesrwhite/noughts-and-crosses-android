@@ -26,17 +26,11 @@ public class GameActivity extends Activity implements OnClickListener {
 	// Define all the grid cells
 	private int cellId;
 
-	// Define the player choice buttons
-	private Button selectNoughts, selectCrosses;
-
 	// Define the onClick parent and child views
 	private LinearLayout parent;
 	private TextView child;
 	private LinearLayout[] cells;
-	
-	// Define our external font used in the game
-	Typeface alphaMack;
-	
+
 	// Define our TextView used to show the score
 	private TextView score;
 
@@ -53,64 +47,42 @@ public class GameActivity extends Activity implements OnClickListener {
 		super.onCreate(savedInstanceState);
 		this.setContentView(R.layout.game);
 
-		// Show our dialog to get the player type choice
-		final Dialog dialog = new Dialog(GameActivity.this);
-		dialog.setContentView(R.layout.gamestartdiaglog);
-		dialog.setTitle("Choose wisely!");
-		dialog.show();
+		// Show our AlertDialog to select noughts/crosses
+		final AlertDialog.Builder noughtsOrCrossesDialog = new AlertDialog.Builder(
+				this)
+				.setCancelable(true)
+				.setPositiveButton("Noughts",
+						new DialogInterface.OnClickListener() {
+							public void onClick(DialogInterface dialog, int id) {
 
-		// Instantiate our player choice buttons and set their click listeners
-		selectNoughts = (Button) dialog.findViewById(R.id.selectNoughts);
-		selectNoughts.setOnClickListener(new OnClickListener() {
+								// Get the players name and type choice
+								human.setType(game.getNoughtValue());
+								computer.setType(game.getCrossValue());
 
-			@Override
-			public void onClick(View v) {
+								game.setCurrentTurn(game.getNoughtValue());
 
-				// Get the players name and type choice
-				human.setType(game.getNoughtValue());
-				computer.setType(game.getCrossValue());
+								game.start();
 
-				game.setCurrentTurn(game.getNoughtValue());
+							}
+						})
+				.setNegativeButton("Crosses",
+						new DialogInterface.OnClickListener() {
+							public void onClick(DialogInterface dialog, int id) {
 
-				EditText playerName = (EditText) dialog
-						.findViewById(R.id.playerName);
-				String playerNameString = playerName.getText().toString();
-				human.setName(playerNameString);
-				
-				// Let the games begin!
-				game.start();
+								// Get the players name and type choice
+								human.setType(game.getCrossValue());
+								computer.setType(game.getNoughtValue());
 
-				dialog.dismiss();
+								game.setCurrentTurn(game.getCrossValue());
 
-			}
+								game.start();
 
-		});
+							}
+						});
 
-		selectCrosses = (Button) dialog.findViewById(R.id.selectCrosses);
-		selectCrosses.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-
-				// Get the players name and type choice
-				human.setType(game.getCrossValue());
-				computer.setType(game.getNoughtValue());
-
-				game.setCurrentTurn(game.getCrossValue());
-
-				EditText playerName = (EditText) dialog
-						.findViewById(R.id.playerName);
-				String playerNameString = playerName.getText().toString();
-				human.setName(playerNameString);
-				
-				// Let the games begin!
-				game.start();
-
-				dialog.dismiss();
-
-			}
-
-		});
+		noughtsOrCrossesDialog.setMessage("What's it gonna be?");
+		AlertDialog noughtsOrCrossesAlert = noughtsOrCrossesDialog.create();
+		noughtsOrCrossesAlert.show();
 
 		// Add all the grid cells to an Array
 		cells = new LinearLayout[9];
@@ -152,19 +124,21 @@ public class GameActivity extends Activity implements OnClickListener {
 
 		}
 
-		// Set the onClickListeners for each of the cells and the font for the TextView's
-		alphaMack = Typeface.createFromAsset(getApplicationContext().getAssets(),"fonts/alphamack.ttf");
 		TextView textView;
-		
+		Typeface alphaMack = Typeface.createFromAsset(getApplicationContext()
+				.getAssets(), "fonts/alphamack.ttf");
+
 		for (LinearLayout cell : cells) {
 
+			// Set the onClickListeners for each of the cells
 			cell.setOnClickListener(this);
-			
+
+			// Set our custom Typeface for each of the cells child TextView
 			textView = (TextView) cell.getChildAt(0);
 			textView.setTypeface(alphaMack);
 
 		}
-		
+
 		// Create out text view to show the score
 		score = (TextView) findViewById(R.id.highScoreValue);
 
@@ -178,20 +152,87 @@ public class GameActivity extends Activity implements OnClickListener {
 		child = (TextView) parent.getChildAt(0);
 		cellId = Integer.parseInt(child.getTag().toString());
 
-		// To be sure people are spam tapping the keyboard, temporarily
+		// To defend against people spam tapping the screen, temporarily
 		// remove the click listeners
 		removeClickListeners();
 
-		// Set up the Alert Dialog to be used in the game logic
-		final AlertDialog.Builder builder = new AlertDialog.Builder(this)
+		// Set up the Dialog to offer to submit your high score
+		final Dialog gameWonDialog = new Dialog(GameActivity.this);
+		gameWonDialog.setContentView(R.layout.submitscore);
+		gameWonDialog.setTitle("You Win! Submit Score?");
+
+		Button submitScore = (Button) gameWonDialog
+				.findViewById(R.id.submitScore);
+		Button submitScoreBackToMenu = (Button) gameWonDialog
+				.findViewById(R.id.submitScoreBackToMenu);
+
+		// Set up the clickListeners for the two buttons
+		submitScore.setOnClickListener(new View.OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+
+				// Dismiss the dialog and finish the current activity
+				gameWonDialog.dismiss();
+				finish();
+
+				// Get the player name and add it to the human object
+				EditText playerName = (EditText) gameWonDialog
+						.findViewById(R.id.playerName);
+				human.setName(playerName.getText().toString());
+
+				// Open the Async Submit Score Activity
+				Intent asyncSubmitGloabalHighScoresActivity = new Intent(
+						GameActivity.this,
+						AsyncSubmitGloabalHighScoresActivity.class);
+
+				// Clear all previous intents from history
+				asyncSubmitGloabalHighScoresActivity
+						.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
+				// Pass it our score to save
+				asyncSubmitGloabalHighScoresActivity.putExtra("name",
+						human.getName());
+				asyncSubmitGloabalHighScoresActivity.putExtra("score",
+						"" + game.getScore() + "");
+				asyncSubmitGloabalHighScoresActivity.putExtra("date",
+						"" + game.getTime() + "");
+				GameActivity.this
+						.startActivity(asyncSubmitGloabalHighScoresActivity);
+
+			}
+
+		});
+
+		submitScoreBackToMenu.setOnClickListener(new View.OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+
+				gameWonDialog.dismiss();
+				finish();
+
+				// Open the Main Menu and remove the current screen from history
+				Intent menuIntent = new Intent(GameActivity.this,
+						MenuActivity.class);
+				menuIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+				GameActivity.this.startActivity(menuIntent);
+
+			}
+
+		});
+
+		// Set up the Alert Dialog to offer to restart the game or go back to
+		// the menu
+		final AlertDialog.Builder restartGameDialog = new AlertDialog.Builder(
+				this)
 				.setCancelable(true)
 				.setPositiveButton("Yes",
 						new DialogInterface.OnClickListener() {
 							public void onClick(DialogInterface dialog, int id) {
 
-								// Stop the current activity
-								finish();
-
+								// Open the Main Menu and remove the current
+								// screen from history
 								Intent gameIntent = new Intent(
 										GameActivity.this, GameActivity.class);
 								gameIntent
@@ -204,9 +245,8 @@ public class GameActivity extends Activity implements OnClickListener {
 						new DialogInterface.OnClickListener() {
 							public void onClick(DialogInterface dialog, int id) {
 
-								// Stop the current activity
-								finish();
-
+								// Open the Main Menu and remove the current
+								// screen from history
 								Intent menuIntent = new Intent(
 										GameActivity.this, MenuActivity.class);
 								menuIntent
@@ -236,10 +276,10 @@ public class GameActivity extends Activity implements OnClickListener {
 					// Update the TextView and gridValues Array
 					game.setGridValue((cellId - 1), human.getType());
 					child.setText(game.getStringFromPlayerType(human.getType()));
-					
+
 					// +1 to the games moves
 					game.setMoves(game.getMoves() + 1);
-					
+
 					// Update the game score
 					game.updateScore();
 					score.setText("" + game.getScore() + "");
@@ -247,13 +287,7 @@ public class GameActivity extends Activity implements OnClickListener {
 					// Check if the move just made wins the game
 					if (game.checkIfGameWon() != 0) {
 
-						builder.setMessage("You Win! Do you want to play again?");
-						AlertDialog alert = builder.create();
-						alert.show();
-						
-						Database db = new Database(getApplicationContext());
-						db.postScore(human.getName(), game.getScore(), game.getTime());
-						db.close();
+						gameWonDialog.show();
 
 						// Update the game status
 						game.setStatus(game.FINISHED);
@@ -278,7 +312,7 @@ public class GameActivity extends Activity implements OnClickListener {
 					toast = Toast.makeText(context, text, duration);
 					toast.cancel(); // Cancel any already visible slices
 					toast.show();
-					
+
 					// They failed, so let them have another pick..
 					reAddClickListeners();
 
@@ -301,9 +335,10 @@ public class GameActivity extends Activity implements OnClickListener {
 				if (game.checkIfGridFull() == game.FINISHED
 						&& game.getWinner() == 0) {
 
-					builder.setMessage("Draw! Do you want to play again?");
-					AlertDialog alert = builder.create();
-					alert.show();
+					restartGameDialog
+							.setMessage("Draw! Do you want to play again?");
+					AlertDialog restartGameAlert = restartGameDialog.create();
+					restartGameAlert.show();
 
 					// Update the game status
 					game.setStatus(game.FINISHED);
@@ -316,7 +351,7 @@ public class GameActivity extends Activity implements OnClickListener {
 					toast = Toast.makeText(context, text, duration);
 					toast.cancel(); // Cancel any already visible slices
 					toast.show();
-					
+
 					// +1 to the games moves
 					game.setMoves(game.getMoves() + 1);
 
@@ -325,7 +360,7 @@ public class GameActivity extends Activity implements OnClickListener {
 					handler.postDelayed(new Runnable() {
 
 						public void run() {
-							
+
 							// Update the game score
 							game.updateScore();
 							score.setText("" + game.getScore() + "");
@@ -342,9 +377,11 @@ public class GameActivity extends Activity implements OnClickListener {
 							// Check if the CPU's last move won it the game
 							if (game.checkIfGameWon() == computer.getType()) {
 
-								builder.setMessage("You Lost! Do you want to play again?");
-								AlertDialog alert = builder.create();
-								alert.show();
+								restartGameDialog
+										.setMessage("You Lost! Do you want to play again?");
+								AlertDialog restartGameAlert = restartGameDialog
+										.create();
+								restartGameAlert.show();
 
 								// Update the game status
 								game.setStatus(game.FINISHED);
@@ -360,7 +397,7 @@ public class GameActivity extends Activity implements OnClickListener {
 
 								// Now we can add in the click listeners again
 								reAddClickListeners();
-								
+
 							}
 
 						}

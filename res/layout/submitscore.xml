@@ -2,9 +2,9 @@
     android:id="@+id/linearLayout1"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:padding="7dp"
     android:gravity="center"
-    android:orientation="vertical" >
+    android:orientation="vertical"
+    android:padding="7dp" >
 
     <LinearLayout
         android:id="@+id/linearLayout2"
@@ -13,10 +13,11 @@
 
         <EditText
             android:id="@+id/playerName"
-            android:layout_width="wrap_content"
+            android:layout_width="0dip"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:inputType="textPersonName"
+            android:maxLength="15"
             android:text="Player 1" >
 
             <requestFocus />
@@ -30,16 +31,16 @@
         android:gravity="center" >
 
         <Button
-            android:id="@+id/selectNoughts"
+            android:id="@+id/submitScore"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Noughts" />
+            android:text="Submit Score" />
 
         <Button
-            android:id="@+id/selectCrosses"
+            android:id="@+id/submitScoreBackToMenu"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Crosses" />
+            android:text="Back to Menu" />
     </LinearLayout>
 
 </LinearLayout>
