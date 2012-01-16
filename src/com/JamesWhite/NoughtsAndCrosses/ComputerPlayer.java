@@ -18,7 +18,7 @@ public class ComputerPlayer extends Player {
 
 		String[] twoInARowPatterns = { "8,1", "1,6", "3,5", "5,7", "4,9",
 				"9,2", "8,3", "3,4", "1,5", "5,9", "6,7", "7,2", "8,5", "5,2",
-				"6,5", "5,4", "6,2", "8,6", "8,4", "6,4", "8,2", "9,1" };
+				"6,5", "5,4", "6,2", "8,6", "8,4", "6,4", "8,2", "9,1", "2,4", "3,7" };
 
 		// Shuffle it!
 		Collections.shuffle(Arrays.asList(twoInARowPatterns));
