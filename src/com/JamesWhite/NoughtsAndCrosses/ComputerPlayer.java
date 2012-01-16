@@ -21,7 +21,7 @@ import android.widget.Toast;
 public class ComputerPlayer extends Player {
 	/**
 	 * getNextMove Calculate the next move for the computer using a simple
-	 * algorithim
+	 * algorithm
 	 * 
 	 * @param gridValues
 	 * @return nextMove
@@ -83,6 +83,13 @@ public class ComputerPlayer extends Player {
 
 		}
 
+		// Didn't get time to finish this part of the AI, but it would in theory
+		// allow the CPU to not only make defensive and finish moves but also to
+		// set up it's own attacks! The idea being it would analyse the
+		// surrounding positions if it didn't have a move to block/finish and
+		// pick somewhere that will give it two an arrow and therefore a chance
+		// of wining
+
 		// If we can't block a winning move or make one of our own at least go
 		// somewhere that's vaguely useful! i.e somewhere that could lead to a
 		// win
@@ -91,39 +98,40 @@ public class ComputerPlayer extends Player {
 		//
 		// for (int i = 0; i < gridValues.length; i++) {
 		//
-		// if (gridValues[i] == super.getType()) {
+		// 		if (gridValues[i] == super.getType()) {
 		//
-		// String surroundingPosition[] = surroundingPositions[i]
-		// .split(",");
+		// 			String surroundingPosition[] = surroundingPositions[i]
+		// 				.split(",");
 		//
-		// // Shuffle it!
-		// Collections.shuffle(Arrays.asList(surroundingPosition));
+		// 			// Shuffle it!
+		// 			Collections.shuffle(Arrays.asList(surroundingPosition));
 		//
-		// for (String position : surroundingPosition) {
+		// 			for (String position : surroundingPosition) {
 		//
-		// int positionInt = Integer.parseInt(position);
+		// 				int positionInt = Integer.parseInt(position);
 		//
-		// if (gridValues[positionInt - 1] == 0) {
+		// 				if (gridValues[positionInt - 1] == 0) {
 		//
-		// return positionInt;
+		// 					return positionInt;
 		//
-		// }
+		// 				}
 		//
-		// }
+		//			 }
 		//
-		// }
+		// 		}
 		//
 		// }
 
 		// If neither of the above are relevant, go somewhere random
 		int nextMove;
-
+		
 		do {
 
 			nextMove = (int) Math.round(Math.random() * 8);
 
 		}
-
+		
+		// Keep going until we find a position that isn't occupied
 		while (gridValues[nextMove] != 0);
 
 		return (nextMove + 1);

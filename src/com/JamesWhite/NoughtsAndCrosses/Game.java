@@ -137,7 +137,9 @@ public class Game {
 	 * @return the winner
 	 */
 	public int getWinner() {
+		
 		return winner;
+		
 	}
 
 	/**
@@ -146,7 +148,9 @@ public class Game {
 	 * @param winner
 	 */
 	public void setWinner(int winner) {
+		
 		this.winner = winner;
+		
 	}
 
 	/**
@@ -271,7 +275,8 @@ public class Game {
 	public int checkIfGridFull() {
 
 		for (int i = 1; i < gridValues.length; i++) {
-
+			
+			// If value is 0 then it's empty
 			if (gridValues[i] == 0) {
 
 				return this.ACTIVE;
