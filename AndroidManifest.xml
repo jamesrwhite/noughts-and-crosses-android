@@ -4,18 +4,61 @@
     android:versionCode="1"
     android:versionName="1.0" >
 
-    <uses-sdk android:minSdkVersion="10" />
+    <uses-sdk android:minSdkVersion="3" />
+
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:icon="@drawable/ic_launcher"
-        android:label="@string/app_name" >
+        android:label="O + X's" >
         <activity
-            android:label="@string/app_name"
-            android:name=".MenuActivity" >
-            <intent-filter >
+            android:name=".MenuActivity"
+            android:label="O + X's"
+            android:screenOrientation="portrait" >
+            <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".GameActivity"
+            android:label="O + X's"
+            android:screenOrientation="portrait" >
+            <intent-filter>
+                <category android:name="CATEGORY_LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".LocalHighScoreActivity"
+            android:label="Local High Scores"
+            android:screenOrientation="portrait" >
+            <intent-filter>
+                <category android:name="CATEGORY_LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".AsyncSubmitGloabalHighScoresActivity"
+            android:label="Submitting Score"
+            android:screenOrientation="portrait" >
+            <intent-filter>
+                <category android:name="CATEGORY_LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".LoadingGloabalHighScoresActivity"
+            android:label="Loading Global High Scores"
+            android:screenOrientation="portrait" >
+            <intent-filter>
+                <category android:name="CATEGORY_LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".GlobalHighScoreActivity"
+            android:label="Global High Scores"
+            android:screenOrientation="portrait" >
+            <intent-filter>
+                <category android:name="CATEGORY_LAUNCHER" />
             </intent-filter>
         </activity>
     </application>
