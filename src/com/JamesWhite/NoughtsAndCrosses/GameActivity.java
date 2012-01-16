@@ -1,5 +1,11 @@
 package com.JamesWhite.NoughtsAndCrosses;
 
+/**
+ * GameActivity The home of the game
+ * 
+ * @author James White
+ */
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -47,7 +53,7 @@ public class GameActivity extends Activity implements OnClickListener {
 		TextView textView;
 		Typeface alphaMack = Typeface.createFromAsset(getApplicationContext()
 				.getAssets(), "fonts/alphamack.ttf");
-		
+
 		// Create out text view to show the score
 		score = (TextView) findViewById(R.id.highScoreValue);
 
@@ -57,6 +63,7 @@ public class GameActivity extends Activity implements OnClickListener {
 				.setCancelable(false)
 				.setPositiveButton("Noughts",
 						new DialogInterface.OnClickListener() {
+
 							public void onClick(DialogInterface dialog, int id) {
 
 								// Get the players name and type choice
@@ -68,9 +75,11 @@ public class GameActivity extends Activity implements OnClickListener {
 								game.start();
 
 							}
+
 						})
 				.setNegativeButton("Crosses",
 						new DialogInterface.OnClickListener() {
+
 							public void onClick(DialogInterface dialog, int id) {
 
 								// Get the players name and type choice
@@ -82,6 +91,7 @@ public class GameActivity extends Activity implements OnClickListener {
 								game.start();
 
 							}
+
 						});
 
 		noughtsOrCrossesDialog.setMessage("What's it gonna be?");
@@ -186,7 +196,19 @@ public class GameActivity extends Activity implements OnClickListener {
 				// Get the player name and add it to the human object
 				EditText playerName = (EditText) gameWonDialog
 						.findViewById(R.id.playerName);
-				human.setName(playerName.getText().toString());
+
+				// Make sure an empty player name cannot be submitted
+				if (playerName.getText().toString().length() < 1) {
+
+					human.setName("Unknown");
+
+				}
+
+				else {
+
+					human.setName(playerName.getText().toString());
+
+				}
 
 				// Open the Async Submit Score Activity
 				Intent asyncSubmitGloabalHighScoresActivity = new Intent(
@@ -236,6 +258,7 @@ public class GameActivity extends Activity implements OnClickListener {
 				.setCancelable(true)
 				.setPositiveButton("Yes",
 						new DialogInterface.OnClickListener() {
+					
 							public void onClick(DialogInterface dialog, int id) {
 
 								// Open the Main Menu and remove the current
@@ -247,6 +270,7 @@ public class GameActivity extends Activity implements OnClickListener {
 								GameActivity.this.startActivity(gameIntent);
 
 							}
+							
 						})
 				.setNegativeButton("Back to Menu",
 						new DialogInterface.OnClickListener() {

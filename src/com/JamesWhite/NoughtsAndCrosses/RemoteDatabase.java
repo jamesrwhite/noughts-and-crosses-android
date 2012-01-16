@@ -1,5 +1,11 @@
 package com.JamesWhite.NoughtsAndCrosses;
 
+/**
+ * RemoteDatabase Handles posting remote scores and retrieving them
+ * 
+ * @author James White
+ */
+
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -20,15 +26,19 @@ import org.json.JSONException;
 import android.util.Log;
 
 public class RemoteDatabase {
-
+	
+	/**
+	 * getJSONArray
+	 * 
+	 * @return JSONArray
+	 */
 	public JSONArray getJSONArray() {
 
-		// initialize
 		InputStream input = null;
 		String result = "";
 		JSONArray jsonArray = null;
 
-		// http post
+		// Try to retrieve the score using a HTTP post request
 		try {
 
 			HttpClient httpclient = new DefaultHttpClient();
@@ -75,7 +85,7 @@ public class RemoteDatabase {
 
 		}
 
-		// try parse the string to a JSON object
+		// try to parse the string into a JSON object
 		try {
 
 			jsonArray = new JSONArray(result);
@@ -91,13 +101,20 @@ public class RemoteDatabase {
 		return jsonArray;
 
 	}
-
+	
+	/**
+	 * insertScore
+	 * 
+	 * @param name
+	 * @param score
+	 * @param date
+	 * @return httpOutput
+	 */
 	public String insertScore(String name, int score, int date) {
 
-		// initialize
 		InputStream input = null;
 
-		// http post
+		// Try to send the score using a HTTP post request
 		try {
 
 			HttpClient httpclient = new DefaultHttpClient();
@@ -114,16 +131,17 @@ public class RemoteDatabase {
 			HttpResponse response = httpclient.execute(httppost);
 			HttpEntity entity = response.getEntity();
 			input = entity.getContent();
-			
+
 			return input.toString();
 
 		}
 
 		catch (Exception e) {
-			
+
 			Log.e("log_tag", "Error in http connection " + e.toString());
-			
+
 			return null;
+			
 		}
 
 	}

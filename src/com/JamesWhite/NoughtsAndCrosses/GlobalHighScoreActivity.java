@@ -1,5 +1,11 @@
 package com.JamesWhite.NoughtsAndCrosses;
 
+/**
+ * GlobalHighScoreActivity Holds the listview of the global high scores
+ * 
+ * @author James White
+ */
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -41,7 +47,12 @@ public class GlobalHighScoreActivity extends ListActivity {
 		}
 
 	}
-
+	
+	/**
+	 * displayListView Handles populating the listview with our JSON data
+	 * 
+	 * @param json
+	 */
 	public void displayListView(JSONArray json) {
 
 		// Build an ArrayList to store the scores
@@ -66,7 +77,8 @@ public class GlobalHighScoreActivity extends ListActivity {
 			}
 
 		}
-
+		
+		// Catch any JSON Exceptions and handle them
 		catch (JSONException e) {
 
 			Log.e("log_tag", "Error parsing data " + e.toString());

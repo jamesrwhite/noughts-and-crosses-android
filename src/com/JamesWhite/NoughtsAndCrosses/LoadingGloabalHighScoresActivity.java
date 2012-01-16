@@ -1,5 +1,11 @@
 package com.JamesWhite.NoughtsAndCrosses;
 
+/**
+ * LoadingGlobalHighScoresActivity Handles loading the global high scores JSON async
+ * 
+ * @author James White
+ */
+
 import org.json.JSONArray;
 
 import android.app.Activity;
@@ -21,20 +27,26 @@ public class LoadingGloabalHighScoresActivity extends Activity {
 
 		progress = new ProgressDialog(this);
 		progress.setMessage("Loading...");
-		new MyTask(progress).execute();
+		new AsyncLoadJSON(progress).execute();
 
 	}
 
-	public class MyTask extends AsyncTask<Context, Void, JSONArray> {
+	public class AsyncLoadJSON extends AsyncTask<Context, Void, JSONArray> {
 
 		private ProgressDialog progress;
 
-		public MyTask(ProgressDialog progress) {
+		public AsyncLoadJSON(ProgressDialog progress) {
 
 			this.progress = progress;
 
 		}
-
+		
+		/**
+		 * doInBackground Overridden to change data type
+		 * 
+		 * @return json
+		 * @author James White
+		 */
 		@Override
 		protected JSONArray doInBackground(Context... params) {
 
@@ -45,13 +57,24 @@ public class LoadingGloabalHighScoresActivity extends Activity {
 			return json;
 
 		}
-
+		
+		/**
+		 * onPreExecute Shows progress spinner
+		 * 
+		 * @author James White
+		 */
 		public void onPreExecute() {
 
 			progress.show();
 
 		}
-
+		
+		/**
+		 * onPostExecute Overridden to change data type
+		 * 
+		 * @return result the JSON
+		 * @author James White
+		 */
 		public void onPostExecute(JSONArray result) {
 			
 			// Hide the progress box

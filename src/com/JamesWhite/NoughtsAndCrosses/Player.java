@@ -1,11 +1,20 @@
 package com.JamesWhite.NoughtsAndCrosses;
 
+/**
+ * Player basic info about the player
+ * 
+ * @author James White
+ *
+ */
+
 public class Player {
 	
 	private String name;
-	private int type; // 1 or 0 (represents Nought or Cross)
+	private int type; // -1 or 1 (represents Nought or Cross)
 
 	/**
+	 * getName
+	 * 
 	 * @return the name
 	 */
 	public String getName() {
@@ -15,6 +24,8 @@ public class Player {
 	}
 
 	/**
+	 * setName
+	 * 
 	 * @param name the name to set
 	 */
 	public void setName(String name) {
@@ -24,6 +35,8 @@ public class Player {
 	}
 
 	/**
+	 * getType
+	 * 
 	 * @return the type the player is using, 1 or 0
 	 */
 	public int getType() {
@@ -33,6 +46,8 @@ public class Player {
 	}
 
 	/**
+	 * setType
+	 * 
 	 * @param type set the type the player is using, 1 or 0
 	 */
 	public void setType(int type) {

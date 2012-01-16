@@ -1,5 +1,11 @@
 package com.JamesWhite.NoughtsAndCrosses;
 
+/**
+ * LocalDatabase Handles interacting with a local SQLite database
+ * 
+ * @author James White
+ */
+
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -23,24 +29,43 @@ public class LocalDatabase extends SQLiteOpenHelper {
 
 	}
 
+	/**
+	 * onCreate Overridden to create our table
+	 * 
+	 * @param db
+	 */
 	@Override
 	public void onCreate(SQLiteDatabase db) {
-		
+
 		db.execSQL("CREATE TABLE " + highScoresTable + "( " + colScoreID
 				+ " INTEGER PRIMARY KEY AUTOINCREMENT, " + colName + " TEXT, "
 				+ colScore + " INTEGER, " + colDate + " INTEGER " + " );");
 
 	}
 
+	/**
+	 * onUpgrade Overridden to upgrade our databae if needed
+	 * 
+	 * @param db
+	 * @param oldVersion
+	 * @param newVersion
+	 */
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
 		db.execSQL("DROP TABLE IF EXISTS " + highScoresTable);
-		
+
 		onCreate(db);
 
 	}
 
+	/**
+	 * insertScore insert the score data passed to us into the database
+	 * 
+	 * @param name
+	 * @param score
+	 * @param date
+	 */
 	public void insertScore(String name, int score, int date) {
 
 		SQLiteDatabase db = this.getWritableDatabase();
@@ -51,18 +76,24 @@ public class LocalDatabase extends SQLiteOpenHelper {
 		cv.put(colDate, date);
 
 		db.insert(highScoresTable, colScoreID, cv);
-		
+
 		db.close();
 
 	}
-
+	
+	/**
+	 * getScores returns the high scores as a cursor
+	 * 
+	 * @return cursor
+	 */
 	public Cursor getScores() {
 
 		SQLiteDatabase db = this.getReadableDatabase();
-		
-		Cursor cursor = db.rawQuery("SELECT " + colScoreID + " as _id, " + colName + ", "
-				+ colScore + " FROM " + highScoresTable + " ORDER BY " + colScore + " ASC", new String[] {});
-		
+
+		Cursor cursor = db.rawQuery("SELECT " + colScoreID + " as _id, "
+				+ colName + ", " + colScore + " FROM " + highScoresTable
+				+ " ORDER BY " + colScore + " ASC", new String[] {});
+
 		return cursor;
 
 	}

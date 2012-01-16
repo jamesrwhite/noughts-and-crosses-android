@@ -1,5 +1,15 @@
 package com.JamesWhite.NoughtsAndCrosses;
 
+/**
+ * 
+ * Game
+ * 
+ * Handles access to the games key attributes and some helpful functions
+ * 
+ * @author James White
+ * 
+ */
+
 import java.util.Arrays;
 import java.util.Collections;
 
@@ -20,6 +30,8 @@ public class Game {
 	private int[] gridValues = new int[9];
 
 	/**
+	 * getScore
+	 * 
 	 * @return the game score
 	 */
 	public int getScore() {
@@ -32,18 +44,20 @@ public class Game {
 	 * Update the current score, lower is better
 	 */
 	public void updateScore() {
-		
+
 		this.updateTime();
-		
-		int score = this.score + ((this.getTime() - this.startTime) * this.getMoves());
+
+		int score = this.score
+				+ ((this.getTime() - this.startTime) * this.getMoves());
 
 		this.setScore(score);
 
 	}
 
 	/**
+	 * setScore set the game score
+	 * 
 	 * @param score
-	 *            set the game score
 	 */
 	public void setScore(int score) {
 
@@ -52,6 +66,8 @@ public class Game {
 	}
 
 	/**
+	 * getTime
+	 * 
 	 * @return the time
 	 */
 	public int getTime() {
@@ -61,8 +77,9 @@ public class Game {
 	}
 
 	/**
+	 * setTime the time to set
+	 * 
 	 * @param time
-	 *            the time to set
 	 */
 	public void setTime(int time) {
 
@@ -71,6 +88,8 @@ public class Game {
 	}
 
 	/**
+	 * updateTime
+	 * 
 	 * Update the time based on the current unix timestamp
 	 */
 	public void updateTime() {
@@ -80,6 +99,8 @@ public class Game {
 	}
 
 	/**
+	 * getCurrentTurn
+	 * 
 	 * @return the currentTurn
 	 */
 	public int getCurrentTurn() {
@@ -89,8 +110,9 @@ public class Game {
 	}
 
 	/**
-	 * Set the start time of the game
-	 * @param time 
+	 * setStartTime set the start time of the game
+	 * 
+	 * @param time
 	 */
 	public void setStartTime(int startTime) {
 
@@ -99,8 +121,9 @@ public class Game {
 	}
 
 	/**
+	 * setCurrentTurn the currentTurn to set, +- 1
+	 * 
 	 * @param currentTurn
-	 *            the currentTurn to set, +- 1
 	 */
 	public void setCurrentTurn(int currentTurn) {
 
@@ -109,6 +132,8 @@ public class Game {
 	}
 
 	/**
+	 * getWinner
+	 * 
 	 * @return the winner
 	 */
 	public int getWinner() {
@@ -116,14 +141,17 @@ public class Game {
 	}
 
 	/**
+	 * setWinner
+	 * 
 	 * @param winner
-	 *            the winner to set
 	 */
 	public void setWinner(int winner) {
 		this.winner = winner;
 	}
 
 	/**
+	 * getMoves get the amount of moves made
+	 * 
 	 * @return the moves
 	 */
 	public int getMoves() {
@@ -133,8 +161,9 @@ public class Game {
 	}
 
 	/**
+	 * setMoves set the number of moves that have been made
+	 * 
 	 * @param moves
-	 *            the moves to set
 	 */
 	public void setMoves(int moves) {
 
@@ -143,6 +172,8 @@ public class Game {
 	}
 
 	/**
+	 * getStatus
+	 * 
 	 * @return the game status
 	 */
 	public int getStatus() {
@@ -152,8 +183,9 @@ public class Game {
 	}
 
 	/**
+	 * setStatus set the game status with one of the status constants
+	 * 
 	 * @param status
-	 *            set the game status with one of the status constants
 	 */
 	public void setStatus(int status) {
 
@@ -162,7 +194,9 @@ public class Game {
 	}
 
 	/**
-	 * @return the integer value of a 'nought'
+	 * getNoughtValuethe integer value of a 'nought
+	 * 
+	 * @return -1
 	 */
 	public int getNoughtValue() {
 
@@ -171,7 +205,9 @@ public class Game {
 	}
 
 	/**
-	 * @return the integer value of a 'cross'
+	 * getCrossValue the integer value of a 'cross'
+	 * 
+	 * @return 1
 	 */
 	public int getCrossValue() {
 
@@ -180,6 +216,8 @@ public class Game {
 	}
 
 	/**
+	 * getStringFromPlayerType
+	 * 
 	 * @return String value of the player type given as a parameter
 	 * @param int player type Used for setting the text in the XML layout files
 	 */
@@ -203,7 +241,9 @@ public class Game {
 	}
 
 	/**
-	 * @return all the gridValues
+	 * getGridValues
+	 * 
+	 * @return gridValues
 	 */
 	public int[] getGridValues() {
 
@@ -212,6 +252,8 @@ public class Game {
 	}
 
 	/**
+	 * getGridValue
+	 * 
 	 * @return an individual gridValues
 	 */
 	public int getGridValue(int index) {
@@ -221,13 +263,10 @@ public class Game {
 	}
 
 	/**
+	 * checkIfGridFull Take the game grid and see if all the positions are taken
 	 * 
-	 */
-
-	/**
 	 * @param gridValues
-	 * @return game status Take the game grid and see if all the positions are
-	 *         taken
+	 * @return game status
 	 */
 	public int checkIfGridFull() {
 
@@ -246,6 +285,9 @@ public class Game {
 	}
 
 	/**
+	 * checkIfGameWon check against the winning patterns to see if the game has
+	 * been won
+	 * 
 	 * @param int[] gridValues
 	 * @return int id of winning player or false
 	 */
@@ -289,6 +331,8 @@ public class Game {
 	}
 
 	/**
+	 * setGridValue
+	 * 
 	 * @param gridValue
 	 *            the gridValues to set from the gridValues Array.
 	 */
@@ -299,7 +343,7 @@ public class Game {
 	}
 
 	/**
-	 * Reset the grid by setting all values to 0
+	 * resetGrid Reset the grid by setting all values to 0
 	 */
 	public void resetGrid() {
 
