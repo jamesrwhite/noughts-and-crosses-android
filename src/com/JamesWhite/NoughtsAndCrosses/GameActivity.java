@@ -258,7 +258,7 @@ public class GameActivity extends Activity implements OnClickListener {
 				.setCancelable(true)
 				.setPositiveButton("Yes",
 						new DialogInterface.OnClickListener() {
-					
+
 							public void onClick(DialogInterface dialog, int id) {
 
 								// Open the Main Menu and remove the current
@@ -270,7 +270,7 @@ public class GameActivity extends Activity implements OnClickListener {
 								GameActivity.this.startActivity(gameIntent);
 
 							}
-							
+
 						})
 				.setNegativeButton("Back to Menu",
 						new DialogInterface.OnClickListener() {
