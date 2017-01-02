@@ -1,118 +1,102 @@
 package com.JamesWhite.NoughtsAndCrosses;
 
 /**
- * 
  * Database
- * 
+ *
  * @author James White
- * 
- * Parent class of the two databases, makes it easier to submit/retrieve scores
- * 
+ *     <p>Parent class of the two databases, makes it easier to submit/retrieve scores
  */
-
-import org.json.JSONArray;
-
 import android.content.Context;
 import android.database.Cursor;
+import org.json.JSONArray;
 
 public class Database {
 
-	private Context context;
-	private LocalDatabase localDb;
-	private RemoteDatabase remoteDb;
+  private Context context;
+  private LocalDatabase localDb;
+  private RemoteDatabase remoteDb;
 
-	public Database(Context context) {
+  public Database(Context context) {
 
-		this.context = context;
+    this.context = context;
+  };
 
-	};
+  /**
+   * localDb returns a LocalDatabase object
+   *
+   * @return localDb a LocalDatabase object
+   * @author James White
+   */
+  private LocalDatabase localDb() {
 
-	/**
-	 * localDb returns a LocalDatabase object
-	 * 
-	 * @return localDb a LocalDatabase object
-	 * @author James White
-	 */
-	private LocalDatabase localDb() {
+    return new LocalDatabase(context, "", null, 0);
+  }
 
-		return new LocalDatabase(context, "", null, 0);
+  /**
+   * remoteDb returns a LocalDatabase object
+   *
+   * @return remoteDb a RemoteDatabae object
+   * @author James White
+   */
+  private RemoteDatabase remoteDb() {
 
-	}
+    return new RemoteDatabase();
+  }
 
-	/**
-	 * remoteDb returns a LocalDatabase object
-	 * 
-	 * @return remoteDb a RemoteDatabae object
-	 * @author James White
-	 */
-	private RemoteDatabase remoteDb() {
+  /**
+   * postScore handles posting a score to both the local and remote databases
+   *
+   * @param name player name
+   * @param score the score to be inserted
+   * @param date the date of the game
+   * @author James White
+   */
+  public String postScore(String name, int score, int date) {
 
-		return new RemoteDatabase();
+    localDb = this.localDb();
+    remoteDb = this.remoteDb();
 
-	}
+    localDb.insertScore(name, score, date);
+    String returnRemote = remoteDb.insertScore(name, score, date);
 
-	/**
-	 * postScore handles posting a score to both the local and remote databases
-	 * 
-	 * @param name
-	 *            player name
-	 * @param score
-	 *            the score to be inserted
-	 * @param date
-	 *            the date of the game
-	 * @author James White
-	 */
-	public String postScore(String name, int score, int date) {
+    localDb.close();
 
-		localDb = this.localDb();
-		remoteDb = this.remoteDb();
+    return returnRemote;
+  }
 
-		localDb.insertScore(name, score, date);
-		String returnRemote = remoteDb.insertScore(name, score, date);
+  /**
+   * getLocalScores accessor method for getting the LocalScores Cursor
+   *
+   * @return localDb
+   * @author James White
+   */
+  public Cursor getLocalScores() {
 
-		localDb.close();
+    localDb = this.localDb();
+    return localDb.getScores();
+  }
 
-		return returnRemote;
+  /**
+   * getGlobalScores accessor method for getting the JSON returned from the RemoteDatabase HTTP POST
+   * request to the server
+   *
+   * @return json
+   * @author James White
+   */
+  public JSONArray getGlobalScores() {
 
-	}
+    remoteDb = this.remoteDb();
+    return remoteDb.getJSONArray();
+  }
 
-	/**
-	 * getLocalScores accessor method for getting the LocalScores Cursor
-	 * 
-	 * @return localDb
-	 * @author James White
-	 */
-	public Cursor getLocalScores() {
+  /**
+   * close self explanatory, close the SQLite database to prevent leaks
+   *
+   * @author James White
+   */
+  public void close() {
 
-		localDb = this.localDb();
-		return localDb.getScores();
-
-	}
-
-	/**
-	 * getGlobalScores accessor method for getting the JSON returned from the
-	 * RemoteDatabase HTTP POST request to the server
-	 * 
-	 * @return json
-	 * @author James White
-	 */
-	public JSONArray getGlobalScores() {
-
-		remoteDb = this.remoteDb();
-		return remoteDb.getJSONArray();
-
-	}
-
-	/**
-	 * close self explanatory, close the SQLite database to prevent leaks
-	 * 
-	 * @author James White
-	 */
-	public void close() {
-
-		localDb = this.localDb();
-		localDb.close();
-
-	}
-
+    localDb = this.localDb();
+    localDb.close();
+  }
 }

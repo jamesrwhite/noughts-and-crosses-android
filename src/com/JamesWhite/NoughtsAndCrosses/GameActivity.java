@@ -2,10 +2,9 @@ package com.JamesWhite.NoughtsAndCrosses;
 
 /**
  * GameActivity The home of the game
- * 
+ *
  * @author James White
  */
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -25,442 +24,392 @@ import android.widget.Toast;
 
 public class GameActivity extends Activity implements OnClickListener {
 
-	// Define all the grid cells
-	private int cellId;
+  // Define all the grid cells
+  private int cellId;
 
-	// Define the onClick parent and child views
-	private LinearLayout parent;
-	private TextView child;
-	private LinearLayout[] cells;
+  // Define the onClick parent and child views
+  private LinearLayout parent;
+  private TextView child;
+  private LinearLayout[] cells;
 
-	// Define our TextView used to show the score
-	private TextView score;
+  // Define our TextView used to show the score
+  private TextView score;
 
-	// Create our players
-	private Player human = new Player();
-	private ComputerPlayer computer = new ComputerPlayer();
+  // Create our players
+  private Player human = new Player();
+  private ComputerPlayer computer = new ComputerPlayer();
 
-	// Create the game
-	private Game game = new Game();
+  // Create the game
+  private Game game = new Game();
 
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
+  @Override
+  public void onCreate(Bundle savedInstanceState) {
 
-		super.onCreate(savedInstanceState);
-		this.setContentView(R.layout.game);
+    super.onCreate(savedInstanceState);
+    this.setContentView(R.layout.game);
 
-		// Get our external font
-		TextView textView;
-		Typeface alphaMack = Typeface.createFromAsset(getApplicationContext()
-				.getAssets(), "fonts/alphamack.ttf");
+    // Get our external font
+    TextView textView;
+    Typeface alphaMack =
+        Typeface.createFromAsset(getApplicationContext().getAssets(), "fonts/alphamack.ttf");
 
-		// Create out text view to show the score
-		score = (TextView) findViewById(R.id.highScoreValue);
+    // Create out text view to show the score
+    score = (TextView) findViewById(R.id.highScoreValue);
 
-		// Show our AlertDialog to select noughts/crosses
-		final AlertDialog.Builder noughtsOrCrossesDialog = new AlertDialog.Builder(
-				this)
-				.setCancelable(false)
-				.setPositiveButton("Noughts",
-						new DialogInterface.OnClickListener() {
+    // Show our AlertDialog to select noughts/crosses
+    final AlertDialog.Builder noughtsOrCrossesDialog =
+        new AlertDialog.Builder(this)
+            .setCancelable(false)
+            .setPositiveButton(
+                "Noughts",
+                new DialogInterface.OnClickListener() {
 
-							public void onClick(DialogInterface dialog, int id) {
+                  public void onClick(DialogInterface dialog, int id) {
 
-								// Get the players name and type choice
-								human.setType(game.getNoughtValue());
-								computer.setType(game.getCrossValue());
+                    // Get the players name and type choice
+                    human.setType(game.getNoughtValue());
+                    computer.setType(game.getCrossValue());
 
-								game.setCurrentTurn(game.getNoughtValue());
+                    game.setCurrentTurn(game.getNoughtValue());
 
-								game.start();
+                    game.start();
+                  }
+                })
+            .setNegativeButton(
+                "Crosses",
+                new DialogInterface.OnClickListener() {
 
-							}
+                  public void onClick(DialogInterface dialog, int id) {
 
-						})
-				.setNegativeButton("Crosses",
-						new DialogInterface.OnClickListener() {
+                    // Get the players name and type choice
+                    human.setType(game.getCrossValue());
+                    computer.setType(game.getNoughtValue());
 
-							public void onClick(DialogInterface dialog, int id) {
+                    game.setCurrentTurn(game.getCrossValue());
 
-								// Get the players name and type choice
-								human.setType(game.getCrossValue());
-								computer.setType(game.getNoughtValue());
+                    game.start();
+                  }
+                });
 
-								game.setCurrentTurn(game.getCrossValue());
+    noughtsOrCrossesDialog.setMessage("What's it gonna be?");
+    AlertDialog noughtsOrCrossesAlert = noughtsOrCrossesDialog.create();
+    noughtsOrCrossesAlert.show();
 
-								game.start();
+    // Add all the grid cells to an Array
+    cells = new LinearLayout[9];
+    int arrayIndex;
+    LinearLayout childLinear;
+    TextView childText;
+    LinearLayout row1 = (LinearLayout) findViewById(R.id.row1);
+    LinearLayout row2 = (LinearLayout) findViewById(R.id.row2);
+    LinearLayout row3 = (LinearLayout) findViewById(R.id.row3);
 
-							}
+    // Populate the cells array with each LinearLayout grid cell
+    for (int i = 0; i < row1.getChildCount(); i++) {
 
-						});
+      childLinear = (LinearLayout) row1.getChildAt(i);
+      childText = (TextView) childLinear.getChildAt(0);
 
-		noughtsOrCrossesDialog.setMessage("What's it gonna be?");
-		AlertDialog noughtsOrCrossesAlert = noughtsOrCrossesDialog.create();
-		noughtsOrCrossesAlert.show();
+      // Get the cell ID from it's tag
+      arrayIndex = Integer.parseInt((String) childText.getTag());
 
-		// Add all the grid cells to an Array
-		cells = new LinearLayout[9];
-		int arrayIndex;
-		LinearLayout childLinear;
-		TextView childText;
-		LinearLayout row1 = (LinearLayout) findViewById(R.id.row1);
-		LinearLayout row2 = (LinearLayout) findViewById(R.id.row2);
-		LinearLayout row3 = (LinearLayout) findViewById(R.id.row3);
+      // Add it to the array, -1 so the array is still 0 based
+      cells[arrayIndex - 1] = childLinear;
+    }
 
-		// Populate the cells array with each LinearLayout grid cell
-		for (int i = 0; i < row1.getChildCount(); i++) {
+    for (int i = 0; i < row2.getChildCount(); i++) {
 
-			childLinear = (LinearLayout) row1.getChildAt(i);
-			childText = (TextView) childLinear.getChildAt(0);
+      childLinear = (LinearLayout) row2.getChildAt(i);
+      childText = (TextView) childLinear.getChildAt(0);
 
-			// Get the cell ID from it's tag
-			arrayIndex = Integer.parseInt((String) childText.getTag());
+      // Get the cell ID from it's tag
+      arrayIndex = Integer.parseInt((String) childText.getTag());
 
-			// Add it to the array, -1 so the array is still 0 based
-			cells[arrayIndex - 1] = childLinear;
+      // Add it to the array, -1 so the array is still 0 based
+      cells[arrayIndex - 1] = childLinear;
+    }
 
-		}
+    for (int i = 0; i < row3.getChildCount(); i++) {
 
-		for (int i = 0; i < row2.getChildCount(); i++) {
+      childLinear = (LinearLayout) row3.getChildAt(i);
+      childText = (TextView) childLinear.getChildAt(0);
 
-			childLinear = (LinearLayout) row2.getChildAt(i);
-			childText = (TextView) childLinear.getChildAt(0);
+      // Get the cell ID from it's tag
+      arrayIndex = Integer.parseInt((String) childText.getTag());
 
-			// Get the cell ID from it's tag
-			arrayIndex = Integer.parseInt((String) childText.getTag());
+      // Add it to the array, -1 so the array is still 0 based
+      cells[arrayIndex - 1] = childLinear;
+    }
 
-			// Add it to the array, -1 so the array is still 0 based
-			cells[arrayIndex - 1] = childLinear;
+    for (LinearLayout cell : cells) {
 
-		}
+      // Set the onClickListeners for each of the cells
+      cell.setOnClickListener(this);
 
-		for (int i = 0; i < row3.getChildCount(); i++) {
+      // Set our custom Typeface for each of the cells child TextView
+      textView = (TextView) cell.getChildAt(0);
+      textView.setTypeface(alphaMack);
+    }
+  }
 
-			childLinear = (LinearLayout) row3.getChildAt(i);
-			childText = (TextView) childLinear.getChildAt(0);
+  @Override
+  public void onClick(View v) {
+
+    // Set the value for the clicked cell
+    parent = (LinearLayout) findViewById(v.getId());
+    child = (TextView) parent.getChildAt(0);
+    cellId = Integer.parseInt(child.getTag().toString());
+
+    // To defend against people spam tapping the screen, temporarily
+    // remove the click listeners
+    removeClickListeners();
+
+    // Set up the Dialog to offer to submit your high score
+    final Dialog gameWonDialog = new Dialog(GameActivity.this);
+    gameWonDialog.setContentView(R.layout.submitscore);
+    gameWonDialog.setTitle("You Win! Submit Score?");
+
+    // Get the two buttons used in our dialog
+    Button submitScore = (Button) gameWonDialog.findViewById(R.id.submitScore);
+    Button submitScoreBackToMenu = (Button) gameWonDialog.findViewById(R.id.submitScoreBackToMenu);
+
+    // Set up the clickListeners for the two buttons
+    submitScore.setOnClickListener(
+        new View.OnClickListener() {
 
-			// Get the cell ID from it's tag
-			arrayIndex = Integer.parseInt((String) childText.getTag());
+          @Override
+          public void onClick(View v) {
+
+            // Dismiss the dialog and finish the current activity
+            gameWonDialog.dismiss();
+            finish();
 
-			// Add it to the array, -1 so the array is still 0 based
-			cells[arrayIndex - 1] = childLinear;
+            // Get the player name and add it to the human object
+            EditText playerName = (EditText) gameWonDialog.findViewById(R.id.playerName);
+
+            // Make sure an empty player name cannot be submitted
+            if (playerName.getText().toString().length() < 1) {
+
+              human.setName("Unknown");
 
-		}
+            } else {
 
-		for (LinearLayout cell : cells) {
+              human.setName(playerName.getText().toString());
+            }
 
-			// Set the onClickListeners for each of the cells
-			cell.setOnClickListener(this);
+            // Open the Async Submit Score Activity
+            Intent asyncSubmitGloabalHighScoresActivity =
+                new Intent(GameActivity.this, AsyncSubmitGloabalHighScoresActivity.class);
 
-			// Set our custom Typeface for each of the cells child TextView
-			textView = (TextView) cell.getChildAt(0);
-			textView.setTypeface(alphaMack);
+            // Clear all previous intents from history
+            asyncSubmitGloabalHighScoresActivity.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
-		}
+            // Pass it our score to save
+            asyncSubmitGloabalHighScoresActivity.putExtra("name", human.getName());
+            asyncSubmitGloabalHighScoresActivity.putExtra("score", "" + game.getScore() + "");
+            asyncSubmitGloabalHighScoresActivity.putExtra("date", "" + game.getTime() + "");
+            GameActivity.this.startActivity(asyncSubmitGloabalHighScoresActivity);
+          }
+        });
 
-	}
+    submitScoreBackToMenu.setOnClickListener(
+        new View.OnClickListener() {
 
-	@Override
-	public void onClick(View v) {
+          @Override
+          public void onClick(View v) {
 
-		// Set the value for the clicked cell
-		parent = (LinearLayout) findViewById(v.getId());
-		child = (TextView) parent.getChildAt(0);
-		cellId = Integer.parseInt(child.getTag().toString());
+            gameWonDialog.dismiss();
+            finish();
 
-		// To defend against people spam tapping the screen, temporarily
-		// remove the click listeners
-		removeClickListeners();
+            // Open the Main Menu and remove the current screen from history
+            Intent menuIntent = new Intent(GameActivity.this, MenuActivity.class);
+            menuIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            GameActivity.this.startActivity(menuIntent);
+          }
+        });
 
-		// Set up the Dialog to offer to submit your high score
-		final Dialog gameWonDialog = new Dialog(GameActivity.this);
-		gameWonDialog.setContentView(R.layout.submitscore);
-		gameWonDialog.setTitle("You Win! Submit Score?");
+    // Set up the Alert Dialog to offer to restart the game or go back to
+    // the menu
+    final AlertDialog.Builder restartGameDialog =
+        new AlertDialog.Builder(this)
+            .setCancelable(true)
+            .setPositiveButton(
+                "Yes",
+                new DialogInterface.OnClickListener() {
 
-		// Get the two buttons used in our dialog
-		Button submitScore = (Button) gameWonDialog
-				.findViewById(R.id.submitScore);
-		Button submitScoreBackToMenu = (Button) gameWonDialog
-				.findViewById(R.id.submitScoreBackToMenu);
+                  public void onClick(DialogInterface dialog, int id) {
 
-		// Set up the clickListeners for the two buttons
-		submitScore.setOnClickListener(new View.OnClickListener() {
+                    // Open the Main Menu and remove the current
+                    // screen from history
+                    Intent gameIntent = new Intent(GameActivity.this, GameActivity.class);
+                    gameIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    GameActivity.this.startActivity(gameIntent);
+                  }
+                })
+            .setNegativeButton(
+                "Back to Menu",
+                new DialogInterface.OnClickListener() {
+                  public void onClick(DialogInterface dialog, int id) {
 
-			@Override
-			public void onClick(View v) {
+                    // Open the Main Menu and remove the current
+                    // screen from history
+                    Intent menuIntent = new Intent(GameActivity.this, MenuActivity.class);
+                    menuIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    GameActivity.this.startActivity(menuIntent);
+                  }
+                });
 
-				// Dismiss the dialog and finish the current activity
-				gameWonDialog.dismiss();
-				finish();
+    // Set up the toast notifications
+    Toast toast;
+    Context context = getApplicationContext();
+    String text;
+    int duration = Toast.LENGTH_SHORT;
 
-				// Get the player name and add it to the human object
-				EditText playerName = (EditText) gameWonDialog
-						.findViewById(R.id.playerName);
+    //
+    // Human game logic
+    //
 
-				// Make sure an empty player name cannot be submitted
-				if (playerName.getText().toString().length() < 1) {
+    // Check the game is active and not finished
+    if (game.getStatus() == game.ACTIVE) {
 
-					human.setName("Unknown");
+      if (game.getCurrentTurn() == human.getType()) {
 
-				}
+        if (game.getGridValue(cellId - 1) == 0) {
 
-				else {
+          // Update the TextView and gridValues Array
+          game.setGridValue((cellId - 1), human.getType());
+          child.setText(game.getStringFromPlayerType(human.getType()));
 
-					human.setName(playerName.getText().toString());
+          // +1 to the games moves
+          game.setMoves(game.getMoves() + 1);
 
-				}
+          // Update the game score
+          game.updateScore();
+          score.setText("" + game.getScore() + "");
 
-				// Open the Async Submit Score Activity
-				Intent asyncSubmitGloabalHighScoresActivity = new Intent(
-						GameActivity.this,
-						AsyncSubmitGloabalHighScoresActivity.class);
+          // Check if the move just made wins the game
+          if (game.checkIfGameWon() != 0) {
 
-				// Clear all previous intents from history
-				asyncSubmitGloabalHighScoresActivity
-						.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            gameWonDialog.show();
 
-				// Pass it our score to save
-				asyncSubmitGloabalHighScoresActivity.putExtra("name",
-						human.getName());
-				asyncSubmitGloabalHighScoresActivity.putExtra("score", ""
-						+ game.getScore() + "");
-				asyncSubmitGloabalHighScoresActivity.putExtra("date",
-						"" + game.getTime() + "");
-				GameActivity.this
-						.startActivity(asyncSubmitGloabalHighScoresActivity);
+            // Update the game status
+            game.setStatus(game.FINISHED);
+            game.setWinner(human.getType());
 
-			}
+          }
 
-		});
+          // Otherwise update the status and let the game continue
+          else {
 
-		submitScoreBackToMenu.setOnClickListener(new View.OnClickListener() {
+            // Update the current turn
+            game.setCurrentTurn(computer.getType());
+          }
 
-			@Override
-			public void onClick(View v) {
+        }
 
-				gameWonDialog.dismiss();
-				finish();
+        // Inform the player this position has already been taken
+        else {
 
-				// Open the Main Menu and remove the current screen from history
-				Intent menuIntent = new Intent(GameActivity.this,
-						MenuActivity.class);
-				menuIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-				GameActivity.this.startActivity(menuIntent);
+          text = "Looks like that position is already taken!";
+          toast = Toast.makeText(context, text, duration);
+          toast.cancel(); // Cancel any already visible slices
+          toast.show();
 
-			}
+          // They failed, so let them have another pick..
+          reAddClickListeners();
+        }
+      }
+    }
 
-		});
+    // Check again that the game is active!
+    if (game.getStatus() == game.ACTIVE) {
 
-		// Set up the Alert Dialog to offer to restart the game or go back to
-		// the menu
-		final AlertDialog.Builder restartGameDialog = new AlertDialog.Builder(
-				this)
-				.setCancelable(true)
-				.setPositiveButton("Yes",
-						new DialogInterface.OnClickListener() {
+      if (game.getCurrentTurn() == computer.getType()) {
 
-							public void onClick(DialogInterface dialog, int id) {
+        //
+        // CPU Game Logic
+        //
 
-								// Open the Main Menu and remove the current
-								// screen from history
-								Intent gameIntent = new Intent(
-										GameActivity.this, GameActivity.class);
-								gameIntent
-										.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-								GameActivity.this.startActivity(gameIntent);
+        // Check if the grid is full first before we begin
+        if (game.checkIfGridFull() == game.FINISHED && game.getWinner() == 0) {
 
-							}
+          restartGameDialog.setMessage("Draw! Do you want to play again?");
+          AlertDialog restartGameAlert = restartGameDialog.create();
+          restartGameAlert.show();
 
-						})
-				.setNegativeButton("Back to Menu",
-						new DialogInterface.OnClickListener() {
-							public void onClick(DialogInterface dialog, int id) {
+          // Update the game status
+          game.setStatus(game.FINISHED);
+        }
 
-								// Open the Main Menu and remove the current
-								// screen from history
-								Intent menuIntent = new Intent(
-										GameActivity.this, MenuActivity.class);
-								menuIntent
-										.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-								GameActivity.this.startActivity(menuIntent);
+        if (game.getStatus() != game.FINISHED) {
 
-							}
-						});
+          text = "CPU is thinking..";
+          toast = Toast.makeText(context, text, duration);
+          toast.cancel(); // Cancel any already visible slices
+          toast.show();
 
-		// Set up the toast notifications
-		Toast toast;
-		Context context = getApplicationContext();
-		String text;
-		int duration = Toast.LENGTH_SHORT;
+          // +1 to the games moves
+          game.setMoves(game.getMoves() + 1);
 
-		//
-		// Human game logic
-		//
+          // Wait two seconds before showing the move to the player
+          Handler handler = new Handler();
+          handler.postDelayed(
+              new Runnable() {
 
-		// Check the game is active and not finished
-		if (game.getStatus() == game.ACTIVE) {
+                public void run() {
 
-			if (game.getCurrentTurn() == human.getType()) {
+                  // Update the game score
+                  game.updateScore();
+                  score.setText("" + game.getScore() + "");
 
-				if (game.getGridValue(cellId - 1) == 0) {
+                  int cpuNextMove = computer.getNextMove(game.getGridValues());
+                  TextView cpuTextView = (TextView) cells[cpuNextMove - 1].getChildAt(0);
+                  cpuTextView.setText(game.getStringFromPlayerType(computer.getType()));
+                  game.setGridValue((cpuNextMove - 1), computer.getType());
 
-					// Update the TextView and gridValues Array
-					game.setGridValue((cellId - 1), human.getType());
-					child.setText(game.getStringFromPlayerType(human.getType()));
+                  // Check if the CPU's last move won it the game
+                  if (game.checkIfGameWon() == computer.getType()) {
 
-					// +1 to the games moves
-					game.setMoves(game.getMoves() + 1);
+                    restartGameDialog.setMessage("You Lost! Do you want to play again?");
+                    AlertDialog restartGameAlert = restartGameDialog.create();
+                    restartGameAlert.show();
 
-					// Update the game score
-					game.updateScore();
-					score.setText("" + game.getScore() + "");
+                    // Update the game status
+                    game.setStatus(game.FINISHED);
+                    game.setWinner(computer.getType());
 
-					// Check if the move just made wins the game
-					if (game.checkIfGameWon() != 0) {
+                  }
 
-						gameWonDialog.show();
+                  // Otherwise carry on
+                  else {
 
-						// Update the game status
-						game.setStatus(game.FINISHED);
-						game.setWinner(human.getType());
+                    game.setStatus(game.ACTIVE);
+                    game.setCurrentTurn(human.getType());
 
-					}
+                    // Now we can add in the click listeners again
+                    reAddClickListeners();
+                  }
+                }
+              },
+              2500);
+        }
+      }
+    }
+  }
 
-					// Otherwise update the status and let the game continue
-					else {
+  public void removeClickListeners() {
 
-						// Update the current turn
-						game.setCurrentTurn(computer.getType());
+    for (LinearLayout cell : cells) {
 
-					}
+      cell.setOnClickListener(null);
+    }
+  }
 
-				}
+  public void reAddClickListeners() {
 
-				// Inform the player this position has already been taken
-				else {
+    for (LinearLayout cell : cells) {
 
-					text = "Looks like that position is already taken!";
-					toast = Toast.makeText(context, text, duration);
-					toast.cancel(); // Cancel any already visible slices
-					toast.show();
-
-					// They failed, so let them have another pick..
-					reAddClickListeners();
-
-				}
-
-			}
-
-		}
-
-		// Check again that the game is active!
-		if (game.getStatus() == game.ACTIVE) {
-
-			if (game.getCurrentTurn() == computer.getType()) {
-
-				//
-				// CPU Game Logic
-				//
-
-				// Check if the grid is full first before we begin
-				if (game.checkIfGridFull() == game.FINISHED
-						&& game.getWinner() == 0) {
-
-					restartGameDialog
-							.setMessage("Draw! Do you want to play again?");
-					AlertDialog restartGameAlert = restartGameDialog.create();
-					restartGameAlert.show();
-
-					// Update the game status
-					game.setStatus(game.FINISHED);
-
-				}
-
-				if (game.getStatus() != game.FINISHED) {
-
-					text = "CPU is thinking..";
-					toast = Toast.makeText(context, text, duration);
-					toast.cancel(); // Cancel any already visible slices
-					toast.show();
-
-					// +1 to the games moves
-					game.setMoves(game.getMoves() + 1);
-
-					// Wait two seconds before showing the move to the player
-					Handler handler = new Handler();
-					handler.postDelayed(new Runnable() {
-
-						public void run() {
-
-							// Update the game score
-							game.updateScore();
-							score.setText("" + game.getScore() + "");
-
-							int cpuNextMove = computer.getNextMove(game
-									.getGridValues());
-							TextView cpuTextView = (TextView) cells[cpuNextMove - 1]
-									.getChildAt(0);
-							cpuTextView.setText(game
-									.getStringFromPlayerType(computer.getType()));
-							game.setGridValue((cpuNextMove - 1),
-									computer.getType());
-
-							// Check if the CPU's last move won it the game
-							if (game.checkIfGameWon() == computer.getType()) {
-
-								restartGameDialog
-										.setMessage("You Lost! Do you want to play again?");
-								AlertDialog restartGameAlert = restartGameDialog
-										.create();
-								restartGameAlert.show();
-
-								// Update the game status
-								game.setStatus(game.FINISHED);
-								game.setWinner(computer.getType());
-
-							}
-
-							// Otherwise carry on
-							else {
-
-								game.setStatus(game.ACTIVE);
-								game.setCurrentTurn(human.getType());
-
-								// Now we can add in the click listeners again
-								reAddClickListeners();
-
-							}
-
-						}
-
-					}, 2500);
-
-				}
-
-			}
-
-		}
-
-	}
-
-	public void removeClickListeners() {
-
-		for (LinearLayout cell : cells) {
-
-			cell.setOnClickListener(null);
-
-		}
-
-	}
-
-	public void reAddClickListeners() {
-
-		for (LinearLayout cell : cells) {
-
-			cell.setOnClickListener(this);
-
-		}
-
-	}
-
+      cell.setOnClickListener(this);
+    }
+  }
 }
