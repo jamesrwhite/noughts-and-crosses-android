@@ -1,8 +1,10 @@
-# Noughts And Crosses - Android
+# Noughts And Crosses
 
 A single player Noughts and Crosses Android game that features local and global high scores and a simple AI.
 
-## LICENSE
+![](https://raw.github.com/jamesrwhite/noughts-and-crosses-android/master/screenshot.png)
+
+## License
 
 The MIT License (MIT)
 
