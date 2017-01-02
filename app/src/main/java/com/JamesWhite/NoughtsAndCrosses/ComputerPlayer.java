@@ -73,8 +73,8 @@ public class ComputerPlayer extends Player {
     // allow the CPU to not only make defensive and finish moves but also to
     // set up it's own attacks! The idea being it would analyse the
     // surrounding positions if it didn't have a move to block/finish and
-    // pick somewhere that will give it two an arrow and therefore a chance
-    // of wining
+    // pick somewhere that will give it two in row and therefore a chance
+    // of winning
 
     // If we can't block a winning move or make one of our own at least go
     // somewhere that's vaguely useful! i.e somewhere that could lead to a
